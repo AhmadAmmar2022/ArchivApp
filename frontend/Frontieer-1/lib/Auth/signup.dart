@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontier/httpfunctions/Request.dart';
+import 'package:frontier/functions/httpfunctions/Request.dart';
 import 'package:get/get.dart';
 
 import '../const/linkes.dart';
+import '../functions/globalfunctions.dart';
+import '../widget/CustomTextfild.dart';
 import 'login.dart';
 
 class SignUp extends StatefulWidget {
@@ -12,7 +14,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  var myusername, mypassword, myemail;
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController();
   Request _request = Request();
 
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
@@ -33,98 +37,36 @@ class _SignUpState extends State<SignUp> {
                 key: formstate,
                 child: Column(
                   children: [
-                    TextFormField(
-                      onSaved: (val) {
-                        myusername = val;
+                    CustomTextFild(
+                      hint: "username",
+                      controller: username,
+                      valu: (val) {
+                        return validate(val!, 10, 2);
                       },
-                      validator: (val) {
-                        if (val!.length < 3) {
-                          return "username must > 3 ";
-                        }
-                        if (val.isEmpty) {
-                          return "username required";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          hintText: "username",
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                              borderSide:
-                                  BorderSide(width: 5, color: Colors.red))),
                     ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      onSaved: (val) {
-                        myemail = val;
+                    CustomTextFild(
+                      hint: "password",
+                      controller: password,
+                      valu: (val) {
+                        return validate(val!, 10, 2);
                       },
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return "Email is required ";
-                        }
-
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          hintText: "email",
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                              borderSide: BorderSide(width: 1))),
                     ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      onSaved: (val) {
-                        mypassword = val;
+                    CustomTextFild(
+                      hint: "email",
+                      controller: email,
+                      valu: (val) {
+                        return validate(val!, 10, 2);
                       },
-                      validator: (val) {
-                        if (val!.length < 8) {
-                          return "Password can't to be less than 8 letter";
-                        }
-                        return null;
-                      },
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.password),
-                          hintText: "password",
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                              borderSide: BorderSide(width: 1))),
                     ),
-                    Container(
-                        margin: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Text("if you have Account "),
-                            InkWell(
-                              onTap: () {
-                                Get.to(() => Login());
-                              },
-                              child: Text(
-                                "Click Here",
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                            )
-                          ],
-                        )),
-                    Container(
-                        child: MaterialButton(
-                      textColor: Colors.white,
-                      color: Color.fromARGB(255, 252, 151, 0),
-                      onPressed: () async {
-                        signUpValid();
-                        await signUp();
-                        print("===================");
-                      },
-                      child: Text(
-                        " sign up",
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ))
+                    // CustomTextFild("username", Icons.person),
+                    // SizedBox(height: 20),
+                    // CustomTextFild("email", Icons.email),
+                    // SizedBox(height: 20),
+                    // CustomTextFild("password", Icons.password),
+                    // SizedBox(height: 20),
+                    // CustomText(),
+                    // SizedBox(height: 20),
+                    CustomButtos(),
                   ],
                 )),
           )
@@ -133,6 +75,71 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  // custom widget--------------------------------------------------------------------------------------------------------
+  Widget CustomButtos() {
+    return Container(
+        child: MaterialButton(
+      textColor: Colors.white,
+      color: Color.fromARGB(255, 252, 151, 0),
+      onPressed: () async {
+        await signUp();
+      },
+      child: Text(
+        " sign up",
+        style: Theme.of(context).textTheme.headline6,
+      ),
+    ));
+  }
+
+  // Widget CustomTextFild(String st, IconData iconbutton) {
+  //   return TextFormField(
+  //     onSaved: (val) {
+  //       if (st == "username") {
+  //         myusername = val;
+  //       } else if (st == "password") {
+  //         mypassword = val;
+  //       } else {
+  //         myemail = val;
+  //       }
+  //     },
+  //     validator: (val) {
+  //       if (val!.length < 3) {
+  //         return "$st must > 3 ";
+  //       }
+  //       if (val.isEmpty) {
+  //         return "$st required";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //         prefixIcon: Icon(Icons.person),
+  //         hintText: "$st",
+  //         border: OutlineInputBorder(
+  //             borderRadius: BorderRadius.all(Radius.circular(15.0)),
+  //             borderSide: BorderSide(width: 5, color: Colors.red))),
+  //   );
+  // }
+
+  // Widget CustomText() {
+  //   return Container(
+  //       margin: EdgeInsets.all(10),
+  //       child: Row(
+  //         children: [
+  //           Text("if you have Account "),
+  //           InkWell(
+  //             onTap: () {
+  //               Get.to(() => Login());
+  //             },
+  //             child: Text(
+  //               "Click Here",
+  //               style: TextStyle(color: Colors.blue),
+  //             ),
+  //           )
+  //         ],
+  //       ));
+  // }
+
+  // Functions---------------------------------------------------------------------------------------------------------
   signUpValid() async {
     var formdata = formstate.currentState;
     if (formdata!.validate()) {
@@ -141,21 +148,35 @@ class _SignUpState extends State<SignUp> {
   }
 
   signUp() async {
-    var response = await _request.postRequest(SignUpUrl, {
-      "username": myusername.toString(),
-      "email": myemail.toString(),
-      "password": mypassword.toString()
+    if (formstate.currentState!.validate()) {
+      var response = await _request.postRequest(SignUpUrl, {
+        "username": username.text,
+        "email": email.text,
+        "password": password.text,
+      });
+      print(response);
 
-    });
-    print(response['status']);
-
-    if (response['status'] == "success") {
-      SnackBar(content: Text('success'));
-      Get.to(Login());
-    } else {
-      AlertDialog(
-        title: Text(""),
-      );
+      if (response['status'] == "success") {
+        Get.snackbar(
+          "${username.text}",
+          " Login completed successfully",
+          icon: Icon(Icons.person, color: Colors.white),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange,
+          borderRadius: 20,
+          margin: EdgeInsets.all(15),
+          colorText: Colors.white,
+          duration: Duration(seconds: 4),
+          isDismissible: true,
+          forwardAnimationCurve: Curves.easeOutBack,
+        );
+        await Future.delayed(Duration(seconds: 2));
+        Get.to(() => Login());
+      } else {
+        AlertDialog(
+          title: Text("zzzzzzzz"),
+        );
+      }
     }
   }
 }
