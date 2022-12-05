@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 
 import '../const/linkes.dart';
 import '../functions/globalfunctions.dart';
+import '../widget/CustomText.dart';
 import '../widget/CustomTextfild.dart';
+import '../widget/customButton.dart';
 import 'login.dart';
 
 class SignUp extends StatefulWidget {
@@ -18,13 +20,13 @@ class _SignUpState extends State<SignUp> {
   TextEditingController password = TextEditingController();
   TextEditingController email = TextEditingController();
   Request _request = Request();
-
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
+           
           SizedBox(height: 100),
           Container(
             decoration: BoxDecoration(
@@ -38,6 +40,7 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   children: [
                     CustomTextFild(
+                        icon: Icon(Icons.person),
                       hint: "username",
                       controller: username,
                       valu: (val) {
@@ -45,6 +48,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     CustomTextFild(
+                        icon: Icon(Icons.password),
                       hint: "password",
                       controller: password,
                       valu: (val) {
@@ -52,21 +56,26 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     CustomTextFild(
+                      icon: Icon(Icons.email),
                       hint: "email",
                       controller: email,
                       valu: (val) {
-                        return validate(val!, 10, 2);
+                        return validate(val!, 15, 2);
                       },
                     ),
-                    // CustomTextFild("username", Icons.person),
-                    // SizedBox(height: 20),
-                    // CustomTextFild("email", Icons.email),
-                    // SizedBox(height: 20),
-                    // CustomTextFild("password", Icons.password),
-                    // SizedBox(height: 20),
-                    // CustomText(),
-                    // SizedBox(height: 20),
-                    CustomButtos(),
+                        customText(
+                      onPress: () {
+                        Get.to(Login());
+                      },
+                      text:"if you have account  " ,
+                    ),
+                    CustomButton(
+                      text: "Signup",
+                      onPress: () async {
+                        await signUp();
+                      },
+                    ),
+                
                   ],
                 )),
           )
@@ -75,85 +84,14 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  // custom widget--------------------------------------------------------------------------------------------------------
-  Widget CustomButtos() {
-    return Container(
-        child: MaterialButton(
-      textColor: Colors.white,
-      color: Color.fromARGB(255, 252, 151, 0),
-      onPressed: () async {
-        await signUp();
-      },
-      child: Text(
-        " sign up",
-        style: Theme.of(context).textTheme.headline6,
-      ),
-    ));
-  }
-
-  // Widget CustomTextFild(String st, IconData iconbutton) {
-  //   return TextFormField(
-  //     onSaved: (val) {
-  //       if (st == "username") {
-  //         myusername = val;
-  //       } else if (st == "password") {
-  //         mypassword = val;
-  //       } else {
-  //         myemail = val;
-  //       }
-  //     },
-  //     validator: (val) {
-  //       if (val!.length < 3) {
-  //         return "$st must > 3 ";
-  //       }
-  //       if (val.isEmpty) {
-  //         return "$st required";
-  //       }
-  //       return null;
-  //     },
-  //     decoration: InputDecoration(
-  //         prefixIcon: Icon(Icons.person),
-  //         hintText: "$st",
-  //         border: OutlineInputBorder(
-  //             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-  //             borderSide: BorderSide(width: 5, color: Colors.red))),
-  //   );
-  // }
-
-  // Widget CustomText() {
-  //   return Container(
-  //       margin: EdgeInsets.all(10),
-  //       child: Row(
-  //         children: [
-  //           Text("if you have Account "),
-  //           InkWell(
-  //             onTap: () {
-  //               Get.to(() => Login());
-  //             },
-  //             child: Text(
-  //               "Click Here",
-  //               style: TextStyle(color: Colors.blue),
-  //             ),
-  //           )
-  //         ],
-  //       ));
-  // }
-
-  // Functions---------------------------------------------------------------------------------------------------------
-  signUpValid() async {
-    var formdata = formstate.currentState;
-    if (formdata!.validate()) {
-      formdata.save();
-    }
-  }
-
   signUp() async {
     if (formstate.currentState!.validate()) {
       var response = await _request.postRequest(SignUpUrl, {
         "username": username.text,
-        "email": email.text,
+        "email":    email.text,
         "password": password.text,
       });
+      print(username);
       print(response);
 
       if (response['status'] == "success") {
@@ -170,7 +108,6 @@ class _SignUpState extends State<SignUp> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-        await Future.delayed(Duration(seconds: 2));
         Get.to(() => Login());
       } else {
         AlertDialog(

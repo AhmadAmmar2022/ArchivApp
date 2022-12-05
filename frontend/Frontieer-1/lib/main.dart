@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:frontier/Auth/login.dart';
 import 'package:frontier/Auth/signup.dart';
+import 'package:frontier/screen/homepage.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
 
-void main() {
-  runApp(const MyApp());
+
+ late SharedPreferences sharedpref;
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+   sharedpref = await SharedPreferences.getInstance() ;
+   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,8 +22,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
-      ),
-      home: SignUp(),
+       ),
+      home:  sharedpref.getString("id")==null ? Login():HomePage()
     );
   }
 }
