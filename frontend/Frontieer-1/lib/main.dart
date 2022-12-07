@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontier/Auth/login.dart';
 import 'package:frontier/Auth/signup.dart';
+import 'package:frontier/screen/BottomNavigationBar.dart';
+import 'package:frontier/screen/archive/draweres/drawerimport/drawerimport.dart';
 import 'package:frontier/screen/homepage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart'; 
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
        ),
-      home:  sharedpref.getString("id")==null ? Login():HomePage()
+      home: BottomNavigation()
     );
   }
 }

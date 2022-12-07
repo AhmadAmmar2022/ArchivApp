@@ -1,0 +1,69 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_zoom_drawer/config.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:frontier/screen/archive/draweres/drawerimport/munupage.dart';
+
+import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
+
+import '../../../BottomNavigationBar.dart';
+
+import '../../screens/imports/Unsigned_contracts.dart';
+import '../../screens/imports/archive.dart';
+import '../../screens/imports/contract.dart';
+import 'Menutem.dart';
+
+class drawerimport extends StatefulWidget {
+  const drawerimport({Key? key}) : super(key: key);
+
+  @override
+  State<drawerimport> createState() => _drawerimportState();
+}
+
+class _drawerimportState extends State<drawerimport> {
+  final ZoomDrawerController z = ZoomDrawerController();
+  // List<ScreenHiddenDrawer> _pages = [];
+  final myTextstyle =
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white);
+  @override
+  MenuItemmImport currentitem = MenuItemImport.Contracts;
+  @override
+  Widget build(BuildContext context) {
+    return ZoomDrawer(
+      drawerShadowsBackgroundColor: Color.fromARGB(255, 5, 5, 5),
+      menuScreenWidth: MediaQuery.of(context).size.width,
+      style: DrawerStyle.defaultStyle,
+      menuScreen: Builder(
+        builder: (context) => MenuPage(
+            currentitem: currentitem,
+            onSelectedItem: (item) {
+              setState(() {
+                currentitem = item;
+              });
+              ZoomDrawer.of(context)!.close();
+            }),
+      ),
+      angle: 0,
+      mainScreen: getScreen(),
+      slideWidth: MediaQuery.of(context).size.width * 0.65,
+      borderRadius: 50,
+      showShadow: true,
+    );
+  }
+
+  Widget getScreen() {
+    switch (currentitem) {
+      case MenuItemImport.importhome:
+        return importHome();
+      case MenuItemImport.Contracts:
+        return Contracts();
+      case MenuItemImport.Unsigned_contracts:
+        return Unsigned_contracts();
+    }
+    return BottomNavigation();
+  }
+}

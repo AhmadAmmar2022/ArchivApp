@@ -38,7 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   http: ^0.13.5
+  flutter_zoom_drawer: ^3.0.3
   shared_preferences: ^2.0.15
+  hidden_drawer_menu: ^3.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
