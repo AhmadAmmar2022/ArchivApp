@@ -15,7 +15,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   final screens = [ drawerexport(),drawerimport(),];
-  int currentindex = 0;
+  int currentindex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
