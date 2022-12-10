@@ -13,7 +13,7 @@ import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import '../../../BottomNavigationBar.dart';
 
 import '../../screens/imports/Unsigned_contracts.dart';
-import '../../screens/imports/archive.dart';
+import '../../screens/imports/view.dart';
 import '../../screens/imports/contract.dart';
 import 'Menutem.dart';
 
@@ -58,7 +58,7 @@ class _drawerimportState extends State<drawerimport> {
   Widget getScreen() {
     switch (currentitem) {
       case MenuItemImport.importhome:
-        return importHome();
+        return ViewArchive();
       case MenuItemImport.Contracts:
         return Contracts();
       case MenuItemImport.Unsigned_contracts:

@@ -1,11 +1,11 @@
 <?php
 include "../connect.php";
    
-$userid=filterRequest("user_id");
-$stmp = $con->prepare(" SELECT * FROM  `contract`  WHERE `user_id` =?");
+$contraid=filterRequest("contra_id");
+$stmp = $con->prepare(" SELECT * FROM  `contract`  WHERE `contra_id` =?");
 
 $stmp->execute(array(
- $userid
+ $contraid
 )); 
 
  $cont_row =$stmp ->rowCount(); 
@@ -16,5 +16,5 @@ $stmp->execute(array(
       }
       else {
       echo  json_encode(array("status "=>"erorr"));
-      }
+   }
   ?>
