@@ -9,20 +9,24 @@ import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/customcard.dart';
-import '../view.dart';
-
-
+import 'view.dart';
 
 class details extends StatelessWidget {
   details({super.key});
 
   Request _request = Request();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("arachive home"),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Get.back();
+                  }, icon: Icon(Icons.navigate_next_outlined))
+            ],
+            title: Text("details"),
             backgroundColor: Color.fromRGBO(126, 95, 2, 1),
             leading: IconButton(
               icon: Icon(Icons.menu),
@@ -39,16 +43,41 @@ class details extends StatelessWidget {
                   if (snapshot.hasData) {
                     return ListView.builder(
                         itemCount: snapshot.data['data'].length,
-                        
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, i) {
-                          return  customCard(
-                            onTap: (){
-                            },
-                             name: "${snapshot.data['data'][i]['contra_name']}", 
-                             date: "${snapshot.data['data'][i]['contra_date']}")
-                              ;
+                          return DataTable(
+                          checkboxHorizontalMargin:4,
+                                border: TableBorder.all(  
+                        color: Colors.black,  
+                        style: BorderStyle.solid,  
+                        width: 1),  
+                            columns: [
+                              DataColumn(
+                                  label: Text('اسم الجهة ',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('التاريخ ',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('المبلغ ',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                            ],
+                            rows: [
+                              DataRow(cells: [
+                                DataCell(Text('${snapshot.data['data'][i]['contra_name']}')),
+                              DataCell(Text('${snapshot.data['data'][i]['contra_date']}')),
+                                DataCell(Text('${snapshot.data['data'][i]['contra_salary']}')),
+                              ]),
+                            
+                            ],
+                          );
                         });
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,12 +99,12 @@ class details extends StatelessWidget {
   }
 
   getData() async {
-    var response = await _request.postRequest(getdetails, {
-      "contra_id": ViewArchive.id
-    });
+    var response = await _request
+        .postRequest(getdetails, {"contra_id": ViewArchive.id.toString()});
     if (response['status'] == "success") {
+      print("---------------------------->");
+      print(ViewArchive.id);
       return response;
-     
     }
   }
 }

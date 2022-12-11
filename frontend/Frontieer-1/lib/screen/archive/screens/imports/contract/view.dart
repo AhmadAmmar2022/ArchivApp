@@ -8,18 +8,26 @@ import 'package:frontier/main.dart';
 import 'package:frontier/screen/archive/screens/imports/contract/details.dart';
 import 'package:get/get.dart';
 
-import '../../../../functions/httpfunctions/Request.dart';
-import '../../../../widget/customcard.dart';
+import '../../../../../functions/httpfunctions/Request.dart';
+import '../../../../../widget/customcard.dart';
+import 'add.dart';
 
 class ViewArchive extends StatelessWidget {
   ViewArchive({super.key});
 
   Request _request = Request();
-  var x=10;
-  static var id ;
+
+  static late  String  id ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          floatingActionButton: FloatingActionButton(
+        onPressed: () {
+      Get.to(() => Add());
+        },
+        backgroundColor: Colors.orange,
+        child: const Icon(Icons.add),
+      ),
         appBar: AppBar(
             title: Text("arachive home"),
             backgroundColor: Color.fromRGBO(126, 95, 2, 1),
@@ -38,15 +46,16 @@ class ViewArchive extends StatelessWidget {
                   if (snapshot.hasData) {
                     return ListView.builder(
                         itemCount: snapshot.data['data'].length,
-                        
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, i) {
                           return  customCard(
+                            Icon:IconButton(icon:Icon(Icons.delete),onPressed: () async{
+                                await delete();
+                            }, ) ,
                             onTap: (){
-                             id:snapshot.data['data'][i]['contra_id'];
-                             Get.to(details());
-                          
+                             id=snapshot.data['data'][i]['contra_id'].toString();
+                             Get.to(() => details());
                             },
                              name: "${snapshot.data['data'][i]['contra_name']}", 
                              date: "${snapshot.data['data'][i]['contra_date']}")
@@ -77,6 +86,17 @@ class ViewArchive extends StatelessWidget {
     });
     if (response['status'] == "success") {
       return response;
+      
+    }
+  } 
+  delete() async {
+    var response = await _request.postRequest(deleteURL, {
+      "contra_id": sharedpref.getString("id"),
+    });
+    if (response['status'] == "success") {
+      return response;
+      
     }
   }
+  
 }

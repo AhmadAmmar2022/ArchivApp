@@ -13,7 +13,7 @@ import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import '../../../BottomNavigationBar.dart';
 
 import '../../screens/imports/Unsigned_contracts.dart';
-import '../../screens/imports/view.dart';
+import '../../screens/imports/contract/view.dart';
 import '../../screens/imports/contract.dart';
 import 'Menutem.dart';
 
@@ -30,7 +30,7 @@ class _drawerimportState extends State<drawerimport> {
   final myTextstyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white);
   @override
-  MenuItemmImport currentitem = MenuItemImport.Contracts;
+  MenuItemmImport currentitem = MenuItemImport.view;
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
@@ -57,7 +57,7 @@ class _drawerimportState extends State<drawerimport> {
 
   Widget getScreen() {
     switch (currentitem) {
-      case MenuItemImport.importhome:
+      case MenuItemImport.view:
         return ViewArchive();
       case MenuItemImport.Contracts:
         return Contracts();

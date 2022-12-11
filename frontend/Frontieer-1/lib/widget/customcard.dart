@@ -7,19 +7,19 @@ class customCard extends StatelessWidget {
   void Function()? onTap;
   final String name;
   final String date;
+  final IconButton Icon;
    customCard({ 
     Key? key,
-   required this.onTap, required this.name, required this.date,
+   required this.onTap, required this.name, required this.date, required this.Icon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-      
         child: Card(
           elevation: 5,
-          child: ListTile(title:Text("$name",style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold),),subtitle:Text("$date") ,)),
+          child: ListTile(title:Text("$name",style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold),),subtitle:Text("$date") ,trailing:Icon)),
       ) ,     
       onTap: onTap,
     );
