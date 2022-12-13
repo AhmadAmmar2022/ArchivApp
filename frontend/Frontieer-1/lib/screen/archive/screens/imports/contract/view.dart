@@ -6,10 +6,12 @@ import 'package:frontier/Auth/login.dart';
 import 'package:frontier/const/linkes.dart';
 import 'package:frontier/main.dart';
 import 'package:frontier/screen/archive/screens/imports/contract/details.dart';
+import 'package:frontier/screen/archive/screens/imports/contract/edite.dart';
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/customcard.dart';
+import '../../../../BottomNavigationBar.dart';
 import 'add.dart';
 
 class ViewArchive extends StatelessWidget {
@@ -17,17 +19,17 @@ class ViewArchive extends StatelessWidget {
 
   Request _request = Request();
 
-  static late  String  id ;
+  static late String id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          floatingActionButton: FloatingActionButton(
-        onPressed: () {
-      Get.to(() => Add());
-        },
-        backgroundColor: Colors.orange,
-        child: const Icon(Icons.add),
-      ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.to(() => Add());
+          },
+          backgroundColor: Colors.orange,
+          child: const Icon(Icons.add),
+        ),
         appBar: AppBar(
             title: Text("arachive home"),
             backgroundColor: Color.fromRGBO(126, 95, 2, 1),
@@ -41,7 +43,7 @@ class ViewArchive extends StatelessWidget {
             child: ListView(
           children: [
             FutureBuilder(
-                future: login(),
+                future: getdata(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
@@ -49,17 +51,41 @@ class ViewArchive extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, i) {
-                          return  customCard(
-                            Icon:IconButton(icon:Icon(Icons.delete),onPressed: () async{
-                                await delete();
-                            }, ) ,
-                            onTap: (){
-                             id=snapshot.data['data'][i]['contra_id'].toString();
-                             Get.to(() => details());
-                            },
-                             name: "${snapshot.data['data'][i]['contra_name']}", 
-                             date: "${snapshot.data['data'][i]['contra_date']}")
-                              ;
+                          return customCard(
+                              row: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () async {
+                                        var response = await _request
+                                            .postRequest(deleteURL, {
+                                          "contra_id": snapshot.data['data'][i]
+                                                  ['contra_id']
+                                              .toString()
+                                        });
+                                        if (response['status'] == "success") {
+                                          Get.to(() => BottomNavigation());
+                                        }
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () async {
+                                        await Get.to(() => Edit(
+                                            contract: snapshot.data['data'][i]));
+                                      },
+                                    )
+                                  ]),
+                              onTap: () {
+                                id = snapshot.data['data'][i]['contra_id']
+                                    .toString();
+                                Get.to(() => details());
+                              },
+                              name:
+                                  "${snapshot.data['data'][i]['contra_name']}",
+                              date:
+                                  "${snapshot.data['data'][i]['contra_date']}");
                         });
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -74,29 +100,28 @@ class ViewArchive extends StatelessWidget {
                     );
                   }
 
-                  return Text("Eroor");
+                  return Text("  لا يوجد اي عقود ");
                 })
           ],
         )));
   }
 
-  login() async {
+  getdata() async {
     var response = await _request.postRequest(getarchive, {
       "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       return response;
-      
-    }
-  } 
-  delete() async {
-    var response = await _request.postRequest(deleteURL, {
-      "contra_id": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      return response;
-      
     }
   }
-  
+
+  delete(String i) async {
+    var response =
+        await _request.postRequest(deleteURL, {"contra_id": i.toString()});
+    print(id);
+    if (response['status'] == "success") {
+      print(response);
+      return response;
+    }
+  }
 }

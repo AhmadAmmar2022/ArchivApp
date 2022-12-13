@@ -1,5 +1,5 @@
 <?php
+include "connect.php"; 
 
-echo " hi ";
-
+imageupload('file');
 ?>

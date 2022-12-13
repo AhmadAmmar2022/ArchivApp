@@ -7,10 +7,10 @@ class customCard extends StatelessWidget {
   void Function()? onTap;
   final String name;
   final String date;
-  final IconButton Icon;
+  final Widget row;
    customCard({ 
     Key? key,
-   required this.onTap, required this.name, required this.date, required this.Icon,
+   required this.onTap, required this.name, required this.date, required this.row,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class customCard extends StatelessWidget {
       child: Container(
         child: Card(
           elevation: 5,
-          child: ListTile(title:Text("$name",style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold),),subtitle:Text("$date") ,trailing:Icon)),
+          child: ListTile(title:Text("$name",style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold),),subtitle:Text("$date") ,trailing:row)),
       ) ,     
       onTap: onTap,
     );
