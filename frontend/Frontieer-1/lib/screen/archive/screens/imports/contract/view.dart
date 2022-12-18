@@ -65,7 +65,7 @@ class ViewArchive extends StatelessWidget {
                                               .toString()
                                         });
                                         if (response['status'] == "success") {
-                                          Get.to(() => BottomNavigation());
+                                          // Get.to(() => BottomNavigation());
                                         }
                                       },
                                     ),

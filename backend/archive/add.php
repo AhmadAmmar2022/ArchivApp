@@ -21,9 +21,8 @@ if ($imagename !="fail")
     else {
     echo  json_encode(array("status "=>"erorr"));
     }
-} 
- else {
-  echo  json_encode(array("status "=>"erorr"));
- }
-
+   } 
+  else {
+    echo  json_encode(array("status "=>"erorr"));
+   }
   ?>

@@ -1,5 +1,6 @@
 <?php
 include "connect.php"; 
 
-imageupload('file');
+ $username=imageupload('file');
+ echo $username;
 ?>
