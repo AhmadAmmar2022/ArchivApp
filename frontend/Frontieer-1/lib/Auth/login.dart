@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../const/linkes.dart';
 import '../functions/globalfunctions.dart';
 import '../functions/httpfunctions/Request.dart';
+import '../screen/BottomNavigationBar.dart';
 import '../widget/CustomText.dart';
 import '../widget/CustomTextfild.dart';
 import '../widget/customButton.dart';
@@ -105,7 +106,7 @@ class _LoginState extends State<Login> {
           forwardAnimationCurve: Curves.easeOutBack,
         );
 
-        Get.to(() => HomePage());
+        Get.to(() => BottomNavigation());
       } else {
              Get.snackbar(
           "Failure occurred",

@@ -5,8 +5,8 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:frontier/Auth/login.dart';
 import 'package:frontier/const/linkes.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/imports/contract/details.dart';
-import 'package:frontier/screen/archive/screens/imports/contract/edite.dart';
+import 'package:frontier/screen/archive/screens/imports/sub_type/details.dart';
+import 'package:frontier/screen/archive/screens/imports/sub_type/edite.dart';
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
@@ -46,11 +46,15 @@ class ViewArchive extends StatelessWidget {
                 future: getdata(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
+                    return GridView.builder(
+                      shrinkWrap: true,
+                     
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
                         itemCount: snapshot.data['data'].length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, i) {
+                        itemBuilder: (BuildContext context, int i) {
                           return customCard(
                               row: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -73,7 +77,8 @@ class ViewArchive extends StatelessWidget {
                                       icon: Icon(Icons.edit),
                                       onPressed: () async {
                                         await Get.to(() => Edit(
-                                            contract: snapshot.data['data'][i]));
+                                            contract: snapshot.data['data']
+                                                [i]));
                                       },
                                     )
                                   ]),
@@ -125,3 +130,16 @@ class ViewArchive extends StatelessWidget {
     }
   }
 }
+
+
+
+
+// ListView.builder(
+//                         itemCount: snapshot.data['data'].length,
+//                         shrinkWrap: true,
+//                         physics: NeverScrollableScrollPhysics(),
+//                         itemBuilder: (context, i) {
+//                           return 
+//                         });
+
+

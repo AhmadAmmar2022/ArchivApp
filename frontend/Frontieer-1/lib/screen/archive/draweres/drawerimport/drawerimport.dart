@@ -13,7 +13,7 @@ import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import '../../../BottomNavigationBar.dart';
 
 import '../../screens/imports/Unsigned_contracts.dart';
-import '../../screens/imports/contract/view.dart';
+import '../../screens/imports/sub_type/view.dart';
 import '../../screens/imports/contract.dart';
 import 'Menutem.dart';
 

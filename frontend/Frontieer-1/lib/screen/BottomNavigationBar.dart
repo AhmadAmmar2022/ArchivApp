@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:frontier/screen/archive/draweres/drawerexport/drawerexport.dart';
 
 import 'archive/draweres/drawerimport/drawerimport.dart';
-import 'archive/screens/imports/contract/view.dart';
+import 'archive/screens/imports/sub_type/view.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);

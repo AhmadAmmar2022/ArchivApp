@@ -19,9 +19,9 @@ $stmp->execute(array(
  
  if ($cont_row >0  )
    { 
-      echo json_encode (array("status" =>" success"));
+      echo json_encode (array("status" =>"success"));
+    }
+   else {
+   echo  json_encode(array("status "=>"erorr"));
    }
-  else {
-  echo  json_encode(array("status "=>"erorr"));
-  }
   ?>
