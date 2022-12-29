@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/exports/salary.dart';
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -14,7 +14,8 @@ import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/CustomText.dart';
 import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customButton.dart';
-import '../../../../BottomNavigationBar.dart';
+
+import '../type/viewtype.dart';
 import 'view.dart';
 
 class Add extends StatefulWidget {
@@ -24,12 +25,15 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
+  
   TextEditingController name = TextEditingController();
   TextEditingController date = TextEditingController();
   TextEditingController salary = TextEditingController();
   File? myfile;
   Request _request = Request();
+
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
+    bool issigned=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +84,11 @@ class _AddState extends State<Add> {
                       valu: (val) {
                         return validate(val!, 15, 2);
                       },
-                    ),SizedBox(height: 30,),
+                    ),Row(children: [ Center(child: switcheadaptive()),Text(" هل العقد موقع ؟")]),
+                    
+                   SizedBox(height: 30,),
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 213, 204, 204),
                       ),
                  child:myfile==null ?Text(" No image selected",style: TextStyle(color: Colors.blue),):Image.file(myfile!), 
@@ -91,11 +97,13 @@ class _AddState extends State<Add> {
                       text: "selectimage",
                       onPress: () async {
                         await uploadImage();
+                    
                       },
                     ),
                     CustomButton(
                       text: "Add",
                       onPress: () async {
+                        
                         await Add();
                       },
                     ),
@@ -112,9 +120,9 @@ class _AddState extends State<Add> {
       var response = await _request.postFile(AddUrl, {
         "contra_name": name.text,
         "contra_date": date.text,
-        "contra_issigned": "0",
+        "contra_issigned": issigned?"1":"0",
         "contra_salary": salary.text,
-        "user_id": sharedpref.get('id'),
+       
       },myfile!);
       print(response);
       if (response['status'] == "success") {
@@ -131,7 +139,7 @@ class _AddState extends State<Add> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-        Get.to(() => BottomNavigation());
+    
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
@@ -152,6 +160,18 @@ class _AddState extends State<Add> {
       print(e);
     }
   }
-  //  Center(child:_image==null ?Text(" No image selected"):Image.file(_image!), ),
-  //   await uploadImage(ImageSource.camera);
+  Widget switcheadaptive() {
+    return Switch(
+      value:issigned,
+      onChanged: (value) {
+          setState(() {
+            issigned=value;
+            print(Viewtype.type_id);
+          });
+      },
+    );
+  }
+  
+
+
 }

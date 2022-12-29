@@ -50,9 +50,9 @@ class MenuPage extends StatelessWidget {
 class MenuItemImport {
  
   static const view = MenuItemmImport("homepage", Icons.home_outlined);
-  static const Contracts = MenuItemmImport("Contracts", Icons.archive_rounded);
+  static const daily = MenuItemmImport("Contracts", Icons.dialer_sip_sharp);
   static const Unsigned_contracts = MenuItemmImport("Unsignedcontracts", Icons.archive_outlined);
-       static const all = <MenuItemmImport>[view,Contracts , Unsigned_contracts,];
+       static const all = <MenuItemmImport>[view,daily , Unsigned_contracts,];
   
 }
 

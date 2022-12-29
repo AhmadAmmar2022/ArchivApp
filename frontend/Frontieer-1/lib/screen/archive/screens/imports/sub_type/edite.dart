@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/exports/salary.dart';
+
 import 'package:get/get.dart';
 
 import '../../../../../const/linkes.dart';
@@ -11,7 +11,7 @@ import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/CustomText.dart';
 import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customButton.dart';
-import '../../../../BottomNavigationBar.dart';
+
 import 'view.dart';
 
 class Edit extends StatefulWidget {
@@ -36,7 +36,6 @@ class _EditState extends State<Edit> {
       name.text=widget.contract["contra_name"];
       date.text=widget.contract["contra_date"];
       salary.text=widget.contract["contra_salary"];
-  
     super.initState();
     }
   @override
@@ -126,7 +125,7 @@ class _EditState extends State<Edit> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-        Get.to(() => BottomNavigation());
+      
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),

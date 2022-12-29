@@ -7,14 +7,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:frontier/screen/archive/draweres/drawerimport/munupage.dart';
+import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 
-import '../../../BottomNavigationBar.dart';
 
-import '../../screens/imports/Unsigned_contracts.dart';
+
+import '../../../homepage.dart';
 import '../../screens/imports/sub_type/view.dart';
-import '../../screens/imports/contract.dart';
+
+import '../unsigned.dart';
 import 'Menutem.dart';
 
 class drawerimport extends StatefulWidget {
@@ -26,10 +28,9 @@ class drawerimport extends StatefulWidget {
 
 class _drawerimportState extends State<drawerimport> {
   final ZoomDrawerController z = ZoomDrawerController();
-  // List<ScreenHiddenDrawer> _pages = [];
   final myTextstyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white);
-  @override
+ @override
   MenuItemmImport currentitem = MenuItemImport.view;
   @override
   Widget build(BuildContext context) {
@@ -58,12 +59,13 @@ class _drawerimportState extends State<drawerimport> {
   Widget getScreen() {
     switch (currentitem) {
       case MenuItemImport.view:
-        return ViewArchive();
-      case MenuItemImport.Contracts:
-        return Contracts();
-      case MenuItemImport.Unsigned_contracts:
-        return Unsigned_contracts();
+        return Viewtype();
+         case MenuItemImport.daily:
+        return HomePage();
+         case MenuItemImport.Unsigned_contracts:
+        return unsigned();
+    
     }
-    return BottomNavigation();
+    return Viewtype();
   }
 }

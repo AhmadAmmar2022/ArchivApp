@@ -1,9 +1,11 @@
-const String  servername="http://10.0.2.2/restApiFlutter/backend";
-const String  imageurl="http://10.0.2.2/restApiFlutter/backend/upload";
+const  String  servername="http://10.0.2.2/restApiFlutter/backend";
+const  String  imageurl="http://10.0.2.2/restApiFlutter/backend/upload";
 const  String SignUpUrl="$servername/Auth/signup.php";
 const  String LoginUrl="$servername/Auth/login.php";
-const  String getarchive="$servername/archive/view.php";
+const  String getsubtype="$servername/archive/view.php";
 const  String getdetails="$servername/archive/details.php";
-const String AddUrl="$servername/archive/add.php";
-const String deleteURL="$servername/archive/delete.php";
-const String AddTypeUrl="$servername/type/add.php";
+const  String AddUrl="$servername/archive/add.php";
+const  String deletetypeURL="$servername/type/deletetype.php";
+const  String deleteURL="$servername/archive/delete.php";
+const  String AddTypeUrl="$servername/type/addtype.php";
+const  String getTypeURL="$servername/type/viewtype.php";

@@ -21,7 +21,8 @@ class CustomTextFild extends StatelessWidget {
             hintText:hint, 
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                borderSide: BorderSide(width: 5, color: Colors.red))),
+                borderSide: BorderSide(width: 5, color: Colors.red)),),
+                
       ),
     );
   }

@@ -4,7 +4,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/exports/salary.dart';
+import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
+
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -14,8 +16,6 @@ import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/CustomText.dart';
 import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customButton.dart';
-import '../../../../BottomNavigationBar.dart';
-
 
 class Addtype extends StatefulWidget {
   Addtype({super.key});
@@ -25,8 +25,7 @@ class Addtype extends StatefulWidget {
 
 class _AddtypeState extends State<Addtype> {
   TextEditingController name = TextEditingController();
-  TextEditingController date = TextEditingController();
-  TextEditingController salary = TextEditingController();
+ 
   File? myfile;
   Request _request = Request();
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
@@ -65,22 +64,7 @@ class _AddtypeState extends State<Addtype> {
                         return validate(val!, 25, 2);
                       },
                     ),
-                    CustomTextFild(
-                      icon: Icon(Icons.password),
-                      hint: "تاريخ توقيع العقد ",
-                      controller: date,
-                      valu: (val) {
-                        return validate(val!, 10, 2);
-                      },
-                    ),
-                    CustomTextFild(
-                      icon: Icon(Icons.email),
-                      hint: "المبلغ",
-                      controller: salary,
-                      valu: (val) {
-                        return validate(val!, 15, 2);
-                      },
-                    ),SizedBox(height: 30,),
+              SizedBox(height: 30,),
                     Container(
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 213, 204, 204),
@@ -109,12 +93,8 @@ class _AddtypeState extends State<Addtype> {
 
   Addtype() async {
     if (formstate.currentState!.validate()) {
-      var response = await _request.postFile(AddTypeUrl, {
-        "contra_name": name.text,
-        "contra_date": date.text,
-        "contra_issigned": "0",
-        "contra_salary": salary.text,
-        "user_id": sharedpref.get('id'),
+      var response = await _request.postFile(AddTypeUrl,{
+        "type_name": name.text,
       },myfile!);
       print(response);
       if (response['status'] == "success") {
@@ -131,7 +111,7 @@ class _AddtypeState extends State<Addtype> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-        Get.to(() => BottomNavigation());
+        Get.to(() => Viewtype()); 
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),

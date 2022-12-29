@@ -7,40 +7,44 @@ import 'package:frontier/const/linkes.dart';
 import 'package:frontier/main.dart';
 import 'package:frontier/screen/archive/screens/imports/sub_type/details.dart';
 import 'package:frontier/screen/archive/screens/imports/sub_type/edite.dart';
-import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/customcard.dart';
 
-import 'add.dart';
+import '../sub_type/view.dart';
+import 'addtype.dart';
 
-class Subtype extends StatelessWidget {
-  final String type_id;
-  Subtype({super.key, required this.type_id});
+class Viewtype extends StatefulWidget {
+  static late String type_id;
+  Viewtype({
+    super.key,
+  });
 
+  @override
+  State<Viewtype> createState() => _ViewtypeState();
+}
+
+class _ViewtypeState extends State<Viewtype> {
   Request _request = Request();
-
-  static late String id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(() => Add());
+            Get.to(() => Addtype());
           },
-          backgroundColor: Colors.orange,
+          backgroundColor: Color.fromARGB(255, 63, 39, 3),
           child: const Icon(Icons.add),
         ),
         appBar: AppBar(
-            title: Text("arachive home"),
-            backgroundColor: Color.fromRGBO(126, 95, 2, 1),
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                ZoomDrawer.of(context)!.toggle();
-              },
-            )),
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              ZoomDrawer.of(context)!.toggle();
+            },
+          ),
+        ),
         body: Container(
             child: ListView(
           children: [
@@ -62,23 +66,29 @@ class Subtype extends StatelessWidget {
                                     Edit(contract: snapshot.data['data'][i]));
                               },
                               onPreesDelete: () async {
-                                var response = await _request.postRequest(
-                                    deleteURL, {
-                                  "contra_id": snapshot.data['data'][i]
-                                          ['contra_id']
+                                var response =
+                                    await _request.postRequest(deletetypeURL, {
+                                  "type_id": snapshot.data['data'][i]['type_id']
+                                      .toString(),
+                                  "image_name": snapshot.data['data'][i]
+                                          ['type_img']
                                       .toString()
                                 });
                                 if (response['status'] == "success") {
-                                  // Get.to(() => BottomNavigation());
+                                  setState(() {
+                                   
+                                  });
                                 }
                               },
                               onTap: () {
-                                id = snapshot.data['data'][i]['contra_id']
-                                    .toString();
-                                Get.to(() => details());
+                                Viewtype.type_id= snapshot.data['data'][i]
+                                              ['type_id']
+                                          .toString();
+                                Get.to(() => Subtype(
+                                      type_id: Viewtype.type_id
+                                    ));
                               },
-                              name:
-                                  "${snapshot.data['data'][i]['contra_name']}",
+                              name: "${snapshot.data['data'][i]['type_name']}",
                               date:
                                   "${snapshot.data['data'][i]['contra_date']}");
                         });
@@ -95,41 +105,16 @@ class Subtype extends StatelessWidget {
                     );
                   }
 
-                  return Text("  لا يوجد اي عقود ");
+                  return Text("لا يوجد اي عقود");
                 })
           ],
         )));
   }
 
   getdata() async {
-    var response = await _request.postRequest(getsubtype, {
-      "type_id": type_id
-    });
+    var response = await _request.getRequest(getTypeURL);
     if (response['status'] == "success") {
-      return response;
-    }
-  }
-
-  delete(String i) async {
-    var response =
-        await _request.postRequest(deleteURL, {"contra_id": i.toString()});
-    print(id);
-    if (response['status'] == "success") {
-      print(response);
       return response;
     }
   }
 }
-
-
-
-
-// ListView.builder(
-//                         itemCount: snapshot.data['data'].length,
-//                         shrinkWrap: true,
-//                         physics: NeverScrollableScrollPhysics(),
-//                         itemBuilder: (context, i) {
-//                           return 
-//                         });
-
-

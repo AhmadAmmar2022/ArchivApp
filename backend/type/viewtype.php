@@ -1,12 +1,9 @@
 <?php
 include "../connect.php";
-   
-$typeid=filterRequest("type_id");
-$stmp = $con->prepare(" SELECT * FROM  `contract`  WHERE `doc_id` =?");
+$stmp = $con->prepare(" SELECT * FROM  `doctype` ");
 
-$stmp->execute(array(
- $typeid
-)); 
+$stmp->execute(
+); 
 
  $cont_row =$stmp ->rowCount(); 
  $data =$stmp->fetchAll(PDO::FETCH_ASSOC);
@@ -16,5 +13,4 @@ $stmp->execute(array(
       }
       else {
       echo  json_encode(array("status "=>"erorr"));
-      }
-  ?>
+  } 
