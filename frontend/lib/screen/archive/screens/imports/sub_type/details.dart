@@ -128,10 +128,10 @@ class details extends StatelessWidget {
 
   getData() async {
     var response = await _request
-        .postRequest(getdetails, {"contra_id": Subtype.id.toString()});
+        .postRequest(getdetails, {"contra_id": Subtype.subtype_id.toString()});
     if (response['status'] == "success") {
       print("---------------------------->");
-      print(Subtype.id);
+      print(Subtype.subtype_id);
       return response;
     }
   }

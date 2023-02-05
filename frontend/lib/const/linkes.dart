@@ -9,3 +9,5 @@ const  String deletetypeURL="$servername/type/deletetype.php";
 const  String deleteURL="$servername/archive/delete.php";
 const  String AddTypeUrl="$servername/type/addtype.php";
 const  String getTypeURL="$servername/type/viewtype.php";
+const  String editTypeURL="$servername/type/edittype.php";
+const  String editURL="$servername/archive/edit.php";

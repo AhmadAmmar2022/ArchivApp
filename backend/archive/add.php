@@ -5,14 +5,13 @@ $contra_name=filterRequest("contra_name");
 $contra_date=filterRequest("contra_date");
 $contra_issigned=filterRequest("contra_issigned");
 $contra_salary=filterRequest("contra_salary");
-$user_id=filterRequest("user_id");
 $doc_id=filterRequest("doc_id");
 $imagename=imageupload('file');
 if ($imagename !="fail")
 {
-  $stmp = $con->prepare(" INSERT INTO `contract` (`contra_name`, `contra_date`, `user_id`,`contra_issigned`,`contra_salary`,`contra_image`,`doc_id`) VALUES (?,?,?,?,?,?,?)");
+  $stmp = $con->prepare(" INSERT INTO `contract` (`contra_name`, `contra_date`,`contra_issigned`,`contra_salary`,`contra_image`,`doc_id`) VALUES (?,?,?,?,?,?)");
   $stmp->execute(array(
-   $contra_name,$contra_date,$user_id,$contra_issigned,$contra_salary,$imagename,$imagename,$doc_id
+   $contra_name,$contra_date,$contra_issigned,$contra_salary,$imagename,$doc_id
   )); 
    $cont_row =$stmp ->rowCount(); 
    if ($cont_row >0  )

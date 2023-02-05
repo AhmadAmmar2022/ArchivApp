@@ -1,54 +1,29 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:frontier/main.dart';
-
+import 'package:frontier/functions/httpfunctions/Request.dart';
 import 'package:get/get.dart';
 
-import '../../../../../const/linkes.dart';
-import '../../../../../functions/globalfunctions.dart';
-import '../../../../../functions/httpfunctions/Request.dart';
-import '../../../../../widget/CustomText.dart';
-import '../../../../../widget/CustomTextfild.dart';
-import '../../../../../widget/customButton.dart';
+import '../const/linkes.dart';
+import '../functions/globalfunctions.dart';
+import '../widget/CustomText.dart';
+import '../widget/CustomTextfild.dart';
+import '../widget/customButton.dart';
+import 'login.dart';
 
-import 'view.dart';
-
-class Edit extends StatefulWidget {
-  final contract;
-  Edit({super.key,required this.contract});
+class SignUp extends StatefulWidget {
+  SignUp({super.key});
   @override
-  _EditState createState() => _EditState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _EditState extends State<Edit> {
-  var id ;
-  TextEditingController name = TextEditingController();
-  TextEditingController date = TextEditingController();
-  TextEditingController salary = TextEditingController();
+class _SignUpState extends State<SignUp> {
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController();
   Request _request = Request();
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
-  
-
-
-    @override
-    void initState() {
-      name.text=widget.contract["contra_name"];
-      date.text=widget.contract["contra_date"];
-      salary.text=widget.contract["contra_salary"];
-    super.initState();
-    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-              IconButton(
-                  onPressed: () {
-                    Get.back();
-                  }, icon: Icon(Icons.navigate_next_outlined))
-            ],
-            title: Text("تعديل  "),
-            backgroundColor: Color.fromRGBO(126, 95, 2, 1),),
       body: ListView(
         children: [
           SizedBox(height: 100),
@@ -65,34 +40,41 @@ class _EditState extends State<Edit> {
                   children: [
                     CustomTextFild(
                         icon: Icon(Icons.person),
-                      hint: "اسم الجهة",
-                      controller: name,
+                      hint: "username",
+                      controller: username,
                       valu: (val) {
-                        return validate(val!, 25, 2);
+                        return validate(val!, 10, 2);
                       },
                     ),
                     CustomTextFild(
                         icon: Icon(Icons.password),
-                      hint: "تاريخ توقيع العقد ",
-                      controller: date,
+                      hint: "password",
+                      controller: password,
                       valu: (val) {
                         return validate(val!, 10, 2);
                       },
                     ),
                     CustomTextFild(
                       icon: Icon(Icons.email),
-                      hint: "المبلغ",
-                      controller: salary,
+                      hint: "email",
+                      controller: email,
                       valu: (val) {
                         return validate(val!, 15, 2);
                       },
                     ),
+                        customText(
+                      onPress: () {
+                        Get.to(Login());
+                      },
+                      text:"if you have account  " ,
+                    ),
                     CustomButton(
-                      text: "Edit ",
+                      text: "Signup",
                       onPress: () async {
-                        await editeData();
+                        await signUp();
                       },
                     ),
+                
                   ],
                 )),
           )
@@ -101,20 +83,20 @@ class _EditState extends State<Edit> {
     );
   }
 
-      editeData() async {
-      if (formstate.currentState!.validate()) {
-      var response = await _request.postRequest(AddUrl, {
-        "contra_name": name.text,
-        "contra_date":date.text,
-        "contra_issigned":"0",
-        "contra_salary":salary.text,
-        "user_id":sharedpref.get('id'),
+  signUp() async {
+    if (formstate.currentState!.validate()) {
+      var response = await _request.postRequest(SignUpUrl, {
+        "username": username.text,
+        "email":    email.text,
+        "password": password.text,
       });
+      print(username);
       print(response);
-      if (response['status'] =="success") {
+
+      if (response['status'] == "success") {
         Get.snackbar(
-          "${name.text}",
-          "completed successfully",
+          "${username.text}",
+          " Login completed successfully",
           icon: Icon(Icons.person, color: Colors.white),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.orange,
@@ -125,7 +107,7 @@ class _EditState extends State<Edit> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-      
+        Get.to(() => Login());
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
@@ -133,5 +115,4 @@ class _EditState extends State<Edit> {
       }
     }
   }
-
 }

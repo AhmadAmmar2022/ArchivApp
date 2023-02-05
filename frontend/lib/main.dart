@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-       ),
-      home:sharedpref.getString("id")!=null? drawerimport():Login()
+               primarySwatch: Colors.blue,
+                       ),
+              home:Login()
     );
   }
 }

@@ -7,44 +7,46 @@ import 'package:frontier/const/linkes.dart';
 import 'package:frontier/main.dart';
 import 'package:frontier/screen/archive/screens/imports/sub_type/details.dart';
 import 'package:frontier/screen/archive/screens/imports/sub_type/edite.dart';
+import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/customcard.dart';
 
-import '../sub_type/view.dart';
-import 'addtype.dart';
+import 'add.dart';
 
-class Viewtype extends StatefulWidget {
-  static late String type_id;
-  Viewtype({
-    super.key,
-  });
+class Subtype extends StatefulWidget {
+   static late String subtype_id;
+  Subtype({super.key, });
+
+
 
   @override
-  State<Viewtype> createState() => _ViewtypeState();
+  State<Subtype> createState() => _SubtypeState();
 }
 
-class _ViewtypeState extends State<Viewtype> {
+class _SubtypeState extends State<Subtype> {
   Request _request = Request();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(() => Addtype());
+            Get.to(() => Add());
           },
-          backgroundColor: Color.fromARGB(255, 63, 39, 3),
+          backgroundColor: Colors.orange,
           child: const Icon(Icons.add),
         ),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              ZoomDrawer.of(context)!.toggle();
-            },
-          ),
-        ),
+            title: Text(" الاصناف الفرعية "),
+            backgroundColor: Color.fromRGBO(126, 95, 2, 1),
+            leading: IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                ZoomDrawer.of(context)!.toggle();
+              },
+            )),
         body: Container(
             child: ListView(
           children: [
@@ -66,29 +68,29 @@ class _ViewtypeState extends State<Viewtype> {
                                     Edit(contract: snapshot.data['data'][i]));
                               },
                               onPreesDelete: () async {
-                                var response =
-                                    await _request.postRequest(deletetypeURL, {
-                                  "type_id": snapshot.data['data'][i]['type_id']
+                                var response = await _request.postRequest(
+                                    deleteURL, {
+                                  "contra_id": snapshot.data['data'][i]
+                                          ['contra_id']
                                       .toString(),
-                                  "image_name": snapshot.data['data'][i]
-                                          ['type_img']
+                                          "image_name": snapshot.data['data'][i]
+                                          ['contra_image']
                                       .toString()
                                 });
-                                if (response['status'] == "success") {
-                                  setState(() {
-                                   
-                                  });
+                                if (response['status'] =="success") {
+                                     setState(() {
+                                       
+                                     });
                                 }
                               },
                               onTap: () {
-                                Viewtype.type_id= snapshot.data['data'][i]
-                                              ['type_id']
+                              Subtype.subtype_id= snapshot.data['data'][i]
+                                              ['contra_id']
                                           .toString();
-                                Get.to(() => Subtype(
-                                      type_id: Viewtype.type_id
-                                    ));
+                                Get.to(() => details());
                               },
-                              name: "${snapshot.data['data'][i]['type_name']}",
+                              name:
+                                  "${snapshot.data['data'][i]['contra_name']}",
                               date:
                                   "${snapshot.data['data'][i]['contra_date']}");
                         });
@@ -105,16 +107,32 @@ class _ViewtypeState extends State<Viewtype> {
                     );
                   }
 
-                  return Text("لا يوجد اي عقود");
+                  return Text("  لا يوجد اي عقود ");
                 })
           ],
         )));
   }
 
   getdata() async {
-    var response = await _request.getRequest(getTypeURL);
+    print(Viewtype.type_id);
+    var response = await _request.postRequest(getsubtype, {
+      "type_id":Viewtype.type_id
+    });
     if (response['status'] == "success") {
       return response;
     }
   }
+
+  delete(String i) async {
+    var response =
+        await _request.postRequest(deleteURL, {"contra_id": i.toString()});
+  
+    if (response['status'] == "success") {
+      print(response);
+      return response;
+    }
+  }
 }
+
+
+

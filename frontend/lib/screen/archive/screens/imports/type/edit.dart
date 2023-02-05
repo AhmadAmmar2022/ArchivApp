@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontier/main.dart';
+import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,25 +15,31 @@ import '../../../../../widget/CustomText.dart';
 import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customButton.dart';
 
-import '../type/viewtype.dart';
-import 'view.dart';
+import '../type/addtype.dart';
 
-class Add extends StatefulWidget {
-  Add({super.key});
+class EditType extends StatefulWidget {
+  final contract;
+  EditType({super.key, required this.contract});
   @override
-  _AddState createState() => _AddState();
+  _EditTypeState createState() => _EditTypeState();
 }
 
-class _AddState extends State<Add> {
-  
-  TextEditingController name = TextEditingController();
-  TextEditingController date = TextEditingController();
-  TextEditingController salary = TextEditingController();
+class _EditTypeState extends State<EditType> {
   File? myfile;
-  Request _request = Request();
+  var response;
 
+  TextEditingController name = TextEditingController();
+
+  Request _request = Request();
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
-    bool issigned=false;
+
+  @override
+  void initState() {
+    name.text = widget.contract["type_name"];
+    
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +51,7 @@ class _AddState extends State<Add> {
               },
               icon: Icon(Icons.navigate_next_outlined))
         ],
-        title: Text("اضافة عقد "),
+        title: Text("تعديل"),
         backgroundColor: Color.fromRGBO(126, 95, 2, 1),
       ),
       body: ListView(
@@ -56,7 +62,7 @@ class _AddState extends State<Add> {
                 border: Border.all(color: Colors.orange, width: 4),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             // color: Color.fromARGB(255, 182, 132, 114),
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(10),
             child: Form(
                 key: formstate,
                 child: Column(
@@ -69,66 +75,55 @@ class _AddState extends State<Add> {
                         return validate(val!, 25, 2);
                       },
                     ),
-                    CustomTextFild(
-                      icon: Icon(Icons.password),
-                      hint: "تاريخ توقيع العقد ",
-                      controller: date,
-                      valu: (val) {
-                        return validate(val!, 10, 2);
-                      },
-                    ),
-                    CustomTextFild(
-                      icon: Icon(Icons.email),
-                      hint: "المبلغ",
-                      controller: salary,
-                      valu: (val) {
-                        return validate(val!, 15, 2);
-                      },
-                    ),Row(children: [ Center(child: switcheadaptive()),Text(" هل العقد موقع ؟")]),
-                    
-                   SizedBox(height: 30,),
                     Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color.fromARGB(255, 213, 204, 204),
                       ),
-                 child:myfile==null ?Text(" No image selected",style: TextStyle(color: Colors.blue),):Image.file(myfile!), 
+                      child: myfile == null
+                          ? Image.network(
+                              '$imageurl/${widget.contract["type_img"]}')
+                          : Image.file(myfile!),
                     ),
                     CustomButton(
-                      text: "selectimage",
+                      text: "Editimage",
                       onPress: () async {
                         await uploadImage();
-                    
-                      },
-                    ),
-                    CustomButton(
-                      text: "Add",
-                      onPress: () async {
-                        
-                        await Add();
                       },
                     ),
                   ],
                 )),
-          )
+          ),
+          CustomButton(
+            text: "EditType ",
+            onPress: () async {
+              await editTypee();
+            },
+          ),
         ],
       ),
     );
   }
 
-  Add() async {
+  editTypee() async {
     if (formstate.currentState!.validate()) {
-      var response = await _request.postFile(AddUrl, {
-        "contra_name": name.text,
-        "contra_date": date.text,
-        "contra_issigned": issigned?"1":"0",
-        "contra_salary": salary.text,
-       
+      if (myfile == null) {
+        response = await _request.postRequest(editTypeURL, {
+          "type_name":  name.text,
+          "type_id"  :  widget.contract["type_id"].toString(),
+          "type_img" :  widget.contract["type_img"].toString(),
+        });
+      } else {
+          response = await _request.postFile(editTypeURL,{
+          "type_name":   name.text.toString(),
+          "type_id"  :   widget.contract["type_id"].toString(),
+          "type_img" :   widget.contract["type_img"].toString(),
       },myfile!);
+      }
       print(response);
       if (response['status'] == "success") {
         Get.snackbar(
           "${name.text}",
-          "  completed successfully",
+          "update successfully",
           icon: Icon(Icons.person, color: Colors.white),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.orange,
@@ -139,7 +134,8 @@ class _AddState extends State<Add> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-    
+    Get.to(() => Viewtype());
+  
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
@@ -152,26 +148,11 @@ class _AddState extends State<Add> {
     try {
       XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
       setState(() {
-          myfile = File(xfile!.path);
+        myfile = File(xfile!.path);
       });
-    
     } on PlatformException catch (e) {
-      print("================================");
+      print("================================>");
       print(e);
     }
   }
-  Widget switcheadaptive() {
-    return Switch(
-      value:issigned,
-      onChanged: (value) {
-          setState(() {
-            issigned=value;
-            print(Viewtype.type_id);
-          });
-      },
-    );
-  }
-  
-
-
 }
