@@ -73,6 +73,7 @@ class _EditState extends State<Edit> {
                 child: Column(
                   children: [
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                         icon: Icon(Icons.person),
                       hint: "اسم الجهة",
                       controller: name,
@@ -81,6 +82,7 @@ class _EditState extends State<Edit> {
                       },
                     ),
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                         icon: Icon(Icons.password),
                       hint: "تاريخ توقيع العقد ",
                       controller: date,
@@ -89,6 +91,7 @@ class _EditState extends State<Edit> {
                       },
                     ),
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                       icon: Icon(Icons.email),
                       hint: "المبلغ",
                       controller: salary,

@@ -50,6 +50,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                         children: [
                           CustomTextFild(
+                                 fillColor: Color(0xff838C96),
                             icon: Icon(Icons.person),
                             hint: "username",
                             controller: username,
@@ -58,6 +59,7 @@ class _LoginState extends State<Login> {
                             },
                           ),
                           CustomTextFild(
+                                 fillColor: Color(0xff838C96),
                             icon: Icon(Icons.password),
                             hint: "password",
                             controller: password,

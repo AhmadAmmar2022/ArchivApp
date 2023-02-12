@@ -2,12 +2,12 @@
 include "../connect.php";
    
 $type_name=filterRequest("type_name");
-$imagename=imageupload('file');
-if ($imagename !="fail")
-{
-  $stmp = $con->prepare("INSERT INTO `doctype` (`type_name`, `type_img`) VALUES (?,?)");
+$type_color	=filterRequest("type_color");
+
+
+  $stmp = $con->prepare("INSERT INTO `doctype` (`type_name`, `type_color`) VALUES (?,?)");
   $stmp->execute(array(
-    $type_name,$imagename,
+    $type_name,$type_color,
   )); 
    $cont_row =$stmp ->rowCount(); 
    if ($cont_row >0)
@@ -17,8 +17,6 @@ if ($imagename !="fail")
     else {
     echo  json_encode(array("status "=>"erorr"));
     }
-   } 
-  else {
-    echo  json_encode(array("status "=>"erorr"));
-   }
+    
+
   ?>

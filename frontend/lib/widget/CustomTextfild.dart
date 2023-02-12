@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class CustomTextFild extends StatelessWidget {
   final String hint;
+  final Color fillColor;
   final TextEditingController controller;
   final String? Function(String?) valu;
   final Widget icon;
@@ -12,12 +13,12 @@ class CustomTextFild extends StatelessWidget {
       required this.hint,
       required this.controller,
       required this.valu,
-      required this.icon});
+      required this.icon, required this.fillColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       child: TextFormField(
         validator: valu,
         controller: controller,
@@ -25,11 +26,11 @@ class CustomTextFild extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               borderSide: BorderSide(
-                  width: 3, color: Color.fromARGB(255, 249, 249, 249))),
+                  width: 1, color: Color.fromARGB(255, 249, 249, 249))),
           filled: true,
-          fillColor: Color(0xff838C96),
+          fillColor: fillColor,
           isDense: true,
-          contentPadding: EdgeInsets.all(1),
+         contentPadding: EdgeInsets.zero,
           prefixIcon: icon,
           hintText: hint,
           border: OutlineInputBorder(

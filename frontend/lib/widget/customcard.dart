@@ -3,34 +3,40 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class customCard extends StatelessWidget {
+  var size, height, width;
   void Function()? onTap;
   final String name;
-  final String date;
-  final void Function()   ?onPreesEdit ;
-   final void Function()  ?onPreesDelete ;
+  final Color color;
+  final void Function()? onPreesEdit;
+  final void Function()? onPreesDelete;
   customCard({
     Key? key,
     required this.onTap,
     required this.name,
-    required this.date,
-   required this.onPreesEdit,
+    required this.color,
+    required this.onPreesEdit,
     this.onPreesDelete,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        margin: EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            border: Border.all(
-                width: 4, color: const Color.fromARGB(255, 105, 84, 21)),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          width: 200,
-          height: 200,
+          margin: EdgeInsets.all(2),
           child: Column(
             children: [
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                child: IconButton(
+                  icon: Icon(Icons.folder),
+                  onPressed: () {},
+                  iconSize: 60,
+                  color:color ,
+                ),
+              ),
               Container(
                 child: Text(
                   "$name",
@@ -41,23 +47,22 @@ class customCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 105,),
-              Row(
-                children:
-                  [
-                      IconButton(
-                    icon: Icon(Icons.delete),
-                    iconSize: 30,
-                    onPressed: onPreesDelete,
-                  ),
-                       SizedBox(width: 85,),
-                  IconButton(icon: Icon(Icons.edit),    
-                  iconSize: 30,
-                   onPressed: onPreesEdit),
-             
-                
-                ],
-              )
+
+              // Row(
+              //   children:
+              //     [
+              //         IconButton(
+              //       icon: Icon(Icons.delete),
+              //       iconSize: 30,
+              //       onPressed: onPreesDelete,
+              //     ),
+              //          SizedBox(width: 85,),
+              //     IconButton(icon: Icon(Icons.edit),
+              //     iconSize: 30,
+              //      onPressed: onPreesEdit),
+
+              //   ],
+              // )
             ],
           )),
       onTap: onTap,

@@ -68,6 +68,7 @@ class _EditTypeState extends State<EditType> {
                 child: Column(
                   children: [
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                       icon: Icon(Icons.person),
                       hint: "اسم الجهة",
                       controller: name,

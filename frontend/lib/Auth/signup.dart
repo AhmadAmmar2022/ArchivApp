@@ -39,6 +39,7 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   children: [
                     CustomTextFild(
+                      fillColor: Color(0xff838C96),
                         icon: Icon(Icons.person),
                       hint: "username",
                       controller: username,
@@ -47,6 +48,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                         icon: Icon(Icons.password),
                       hint: "password",
                       controller: password,
@@ -55,6 +57,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                       icon: Icon(Icons.email),
                       hint: "email",
                       controller: email,

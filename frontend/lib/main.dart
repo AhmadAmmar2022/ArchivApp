@@ -5,27 +5,26 @@ import 'package:frontier/screen/archive/draweres/drawerimport/drawerimport.dart'
 import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 import 'package:frontier/screen/homepage.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart'; 
+import 'package:shared_preferences/shared_preferences.dart';
 
-
- late SharedPreferences sharedpref;
-void main() async{
-   WidgetsFlutterBinding.ensureInitialized();
-   sharedpref = await SharedPreferences.getInstance() ;
-   runApp(const MyApp());
+late SharedPreferences sharedpref;
+var size, height, width;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedpref = await SharedPreferences.getInstance();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData(
-               primarySwatch: Colors.blue,
-                       ),
-              home:Login()
-    );
+        return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+        primarySwatch: Colors.blue,
+        ),
+        home: Viewtype());
   }
 }

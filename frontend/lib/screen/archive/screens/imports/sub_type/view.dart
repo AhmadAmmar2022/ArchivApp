@@ -91,7 +91,7 @@ class _SubtypeState extends State<Subtype> {
                               },
                               name:
                                   "${snapshot.data['data'][i]['contra_name']}",
-                              date:
+                            color:
                                   "${snapshot.data['data'][i]['contra_date']}");
                         });
                   }
@@ -107,11 +107,12 @@ class _SubtypeState extends State<Subtype> {
                     );
                   }
 
-                  return Text("  لا يوجد اي عقود ");
+                  return Text("");
                 })
           ],
         )));
   }
+
 
   getdata() async {
     print(Viewtype.type_id);

@@ -63,6 +63,7 @@ class _AddState extends State<Add> {
                 child: Column(
                   children: [
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                       icon: Icon(Icons.person),
                       hint: "اسم الجهة",
                       controller: name,
@@ -71,6 +72,7 @@ class _AddState extends State<Add> {
                       },
                     ),
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                       icon: Icon(Icons.password),
                       hint: "تاريخ توقيع العقد ",
                       controller: date,
@@ -79,6 +81,7 @@ class _AddState extends State<Add> {
                       },
                     ),
                     CustomTextFild(
+                           fillColor: Color(0xff838C96),
                       icon: Icon(Icons.email),
                       hint: "المبلغ",
                       controller: salary,
