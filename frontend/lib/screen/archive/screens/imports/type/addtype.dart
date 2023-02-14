@@ -26,14 +26,15 @@ class Addtype extends StatefulWidget {
 
 class _AddtypeState extends State<Addtype> {
   TextEditingController name = TextEditingController();
-  Color color = Colors.red;
+  Color color = Color(0xffa0c2f4);
   File? myfile;
   Request _request = Request();
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    print(color);
+print("=====================>");
+
     return Scaffold(
         body:Container(
       decoration:const BoxDecoration(
@@ -138,7 +139,7 @@ class _AddtypeState extends State<Addtype> {
           AddTypeUrl,
           {
             'type_name': name.text,
-            'type_color':color.toString(),
+            'type_color':color.value.toString(),
           });
       print(response);
       if (response['status'] == "success") {

@@ -3,8 +3,6 @@ include "../connect.php";
    
 $type_name=filterRequest("type_name");
 $type_color	=filterRequest("type_color");
-
-
   $stmp = $con->prepare("INSERT INTO `doctype` (`type_name`, `type_color`) VALUES (?,?)");
   $stmp->execute(array(
     $type_name,$type_color,

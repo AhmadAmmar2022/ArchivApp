@@ -63,36 +63,32 @@ class _SubtypeState extends State<Subtype> {
                         itemCount: snapshot.data['data'].length,
                         itemBuilder: (BuildContext context, int i) {
                           return customCard(
-                              onPreesEdit: () async {
-                                await Get.to(() =>
-                                    Edit(contract: snapshot.data['data'][i]));
-                              },
-                              onPreesDelete: () async {
-                                var response = await _request.postRequest(
-                                    deleteURL, {
-                                  "contra_id": snapshot.data['data'][i]
-                                          ['contra_id']
-                                      .toString(),
-                                          "image_name": snapshot.data['data'][i]
-                                          ['contra_image']
-                                      .toString()
-                                });
-                                if (response['status'] =="success") {
-                                     setState(() {
+                              // onPreesEdit: () async {
+                              //   await Get.to(() =>
+                              //       Edit(contract: snapshot.data['data'][i]));
+                              // },
+                              // onPreesDelete: () async {
+                              //   var response = await _request.postRequest(
+                              //       deleteURL, {
+                              //     "contra_id": snapshot.data['data'][i]
+                              //             ['contra_id']
+                              //         .toString(),
+                              //             "image_name": snapshot.data['data'][i]
+                              //             ['contra_image']
+                              //         .toString()
+                              //   });
+                              //   if (response['status'] =="success") {
+                              //        setState(() {
                                        
-                                     });
-                                }
-                              },
-                              onTap: () {
-                              Subtype.subtype_id= snapshot.data['data'][i]
-                                              ['contra_id']
-                                          .toString();
-                                Get.to(() => details());
-                              },
+                              //        });
+                              //   }
+                              // },
+                            
                               name:
                                   "${snapshot.data['data'][i]['contra_name']}",
-                            color:
-                                  "${snapshot.data['data'][i]['contra_date']}");
+                            valueColor:
+                                  snapshot.data['data'][i]['contra_date'],
+                                 );
                         });
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {

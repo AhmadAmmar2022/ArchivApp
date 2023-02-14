@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -41,17 +43,6 @@ class _ViewtypeState extends State<Viewtype> {
           backgroundColor: Color(0xFf27394E),
           child: const Icon(Icons.add),
         ),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Color.fromARGB(255, 35, 52, 70),
-          leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              ZoomDrawer.of(context)!.toggle();
-            },
-          ),
-          actions: [Image.asset("images/5.png")],
-        ),
         body: Container(
             height: size.height,
             decoration: BoxDecoration(
@@ -64,6 +55,19 @@ class _ViewtypeState extends State<Viewtype> {
             ),
             child: ListView(
               children: [
+                Row(children: [
+                  IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      ZoomDrawer.of(context)!.toggle();
+                    },
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 280,
+                  ),
+                  Image.asset("images/5.png")
+                ]),
                 SizedBox(height: size.height / 2.9),
                 CustomTextFild(
                   fillColor: Color(0xff838C96),
@@ -86,7 +90,6 @@ class _ViewtypeState extends State<Viewtype> {
                       future: getdata(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
-                         
                           return GridView.builder(
                               shrinkWrap: true,
                               gridDelegate:
@@ -95,39 +98,40 @@ class _ViewtypeState extends State<Viewtype> {
                               ),
                               itemCount: snapshot.data['data'].length,
                               itemBuilder: (BuildContext context, int i) {
-                               
-                                return customCard(
-                                    onPreesEdit: () async {
-                                      await Get.to(() => EditType(
-                                          contract: snapshot.data['data'][i]));
-                                    },
-                                    onPreesDelete: () async {
-                                      var response = await _request
-                                          .postRequest(deletetypeURL, {
-                                        "type_id": snapshot.data['data'][i]
-                                                ['type_id']
-                                            .toString(),
-                                        "image_name": snapshot.data['data'][i]
-                                                ['type_img']
-                                            .toString()
-                                      });
-                                      if (response['status'] == "success") {
-                                        setState(() {});
-                                      }
-                                    },
-                                    onTap: () {
-                                      Viewtype.type_id = snapshot.data['data']
-                                              [i]['type_id']
-                                          .toString();
-
-                                      Get.to(() => Subtype(
-                                          // type_id: Viewtype.type_id
-                                          ));
-                                    },
-                                    name:
-                                        "${snapshot.data['data'][i]['type_name']}",
-                                    color:
-                                        "${snapshot.data['data'][i]['type_color']}" );
+                                return InkWell(
+                                  child: customCard(
+                                      // onPreesEdit: () async {
+                                      //   await Get.to(() => EditType(
+                                      //       contract: snapshot.data['data']
+                                      //           [i]));
+                                      // },
+                                      // onPreesDelete: () async {
+                                      //   var response = await _request
+                                      //       .postRequest(deletetypeURL, {
+                                      //     "type_id": snapshot.data['data'][i]
+                                      //             ['type_id']
+                                      //         .toString(),
+                                      //     "image_name": snapshot.data['data'][i]
+                                      //             ['type_img']
+                                      //         .toString()
+                                      //   });
+                                      //   if (response['status'] == "success") {
+                                      //     setState(() {});
+                                      //   }
+                                      // },
+                                      name:
+                                          "${snapshot.data['data'][i]['type_name']}",
+                                      valueColor: int.parse(
+                                          "${snapshot.data['data'][i]['type_color']}")),
+                                  onTap: () {
+                                    Viewtype.type_id = snapshot.data['data'][i]['type_id'].toString();
+                                    print("===============>");
+                                    print("");
+                                    Get.to(() => Subtype(
+                                        //  subtype_id: Viewtype.type_id
+                                        ));
+                                  },
+                                );
                               });
                         }
                         if (snapshot.connectionState ==
