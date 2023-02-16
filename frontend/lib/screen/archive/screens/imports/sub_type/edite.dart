@@ -50,24 +50,29 @@ class _EditState extends State<Edit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-              IconButton(
-                  onPressed: () {
-                    Get.back();
-                  }, icon: Icon(Icons.navigate_next_outlined))
-            ],
-            title: Text("تعديل  "),
-            backgroundColor: Color.fromRGBO(126, 95, 2, 1),),
-      body: ListView(
+      body: 
+      Container(
+            height: size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  "images/6.png",
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child:ListView(
         children: [
           SizedBox(height: 100),
           Container(
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 213, 204, 204),
-                border: Border.all(color: Colors.orange, width: 4),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            // color: Color.fromARGB(255, 182, 132, 114),
-            padding: EdgeInsets.all(20),
+     decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Color.fromARGB(255, 250, 251, 253),
+              border: Border.all(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 0),
+            ),
+            margin: EdgeInsets.all(15),
+              padding: EdgeInsets.all(20),
             child: Form(
                 key: formstate,
                 child: Column(
@@ -99,7 +104,7 @@ class _EditState extends State<Edit> {
                         return validate(val!, 15, 2);
                       },
                     ),
-                    Row(children: [ Center(child: switcheadaptive()),Text(" هل العقد موقع ؟")]),
+
                        Container(
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 213, 204, 204),
@@ -109,12 +114,17 @@ class _EditState extends State<Edit> {
                               '$imageurl/${widget.contract["contra_image"]}')
                           : Image.file(myfile!),
                     ),
-                    CustomButton(
-                      text: "Editimage",
-                      onPress: () async {
-                        await uploadImage();
-                      },
-                    ),
+
+                         InkWell(
+                           child: Text(
+                                  " اضغط هنا لتعديل صورة ",
+                                  style: TextStyle(color: Color.fromARGB(255, 11, 53, 81)),
+                                ),
+                                onTap: () async{
+                                         await uploadImage();
+                                },
+                         ),
+                  
               
                     CustomButton(
                       text: "Edit ",
@@ -128,27 +138,28 @@ class _EditState extends State<Edit> {
           )
         ],
       ),
-    );
+    ));
   }
 
       editeData() async {
       if (formstate.currentState!.validate()) {
          if (myfile==null)
          {
-        response = await _request.postRequest(editURL, {
+        response = await _request.postRequest(editSubType, {
         "contra_name": name.text,
         "contra_date":date.text,
-        "contra_issigned":issigned? "1":"0",
+        "contra_issigned":"1",
         "contra_salary":salary.text,
-         "contra_image":widget.contract["contra_image"].toString(),
+        "contra_image":widget.contract["contra_image"].toString(),
         "contra_id":widget.contract["contra_id"].toString(),
         "doc_id":Viewtype.type_id.toString()
-      });
-         }else {
-       response = await _request.postFile(editURL, {
+        });
+         }
+         else {
+       response = await _request.postFile(editSubType, {
         "contra_name": name.text,
         "contra_date":date.text,
-        "contra_issigned":issigned? "1":"0",
+        "contra_issigned":"1",
         "contra_salary":salary.text,
         "contra_image":widget.contract["contra_image"].toString(),
         "contra_id":widget.contract["contra_id"].toString(),

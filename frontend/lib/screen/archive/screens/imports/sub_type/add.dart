@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:frontier/main.dart';
 
 import 'package:get/get.dart';
@@ -26,7 +27,6 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
-  
   TextEditingController name = TextEditingController();
   TextEditingController date = TextEditingController();
   TextEditingController salary = TextEditingController();
@@ -34,36 +34,50 @@ class _AddState extends State<Add> {
   Request _request = Request();
 
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
-    bool issigned=false;
+  bool issigned = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(Icons.navigate_next_outlined))
-        ],
-        title: Text("اضافة عقد"),
-        backgroundColor: Color.fromRGBO(126, 95, 2, 1),
+        body: Container(
+      height: size.height,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            "images/7.jpg",
+          ),
+          fit: BoxFit.fill,
+        ),
       ),
-      body: ListView(
+      child: ListView(
         children: [
+          Row(children: [
+            IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                ZoomDrawer.of(context)!.toggle();
+              },
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 280,
+            ),
+            Image.asset("images/5.png")
+          ]),
           Container(
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 213, 204, 204),
-                border: Border.all(color: Colors.orange, width: 4),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            // color: Color.fromARGB(255, 182, 132, 114),
-            padding: EdgeInsets.all(20),
+              borderRadius: BorderRadius.circular(50),
+              color: Color.fromARGB(255, 250, 251, 253),
+              border: Border.all(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 0),
+            ),
+            margin: EdgeInsets.all(15),
+              padding: EdgeInsets.all(20),
             child: Form(
                 key: formstate,
                 child: Column(
                   children: [
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
+                      fillColor: Color(0xffADC0D4),
                       icon: Icon(Icons.person),
                       hint: "اسم الجهة",
                       controller: name,
@@ -72,7 +86,7 @@ class _AddState extends State<Add> {
                       },
                     ),
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
+                      fillColor: Color(0xffADC0D4),
                       icon: Icon(Icons.password),
                       hint: "تاريخ توقيع العقد ",
                       controller: date,
@@ -80,54 +94,66 @@ class _AddState extends State<Add> {
                         return validate(val!, 10, 2);
                       },
                     ),
+                 
+                  
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
+                      fillColor: Color(0xffADC0D4),
                       icon: Icon(Icons.email),
                       hint: "المبلغ",
                       controller: salary,
                       valu: (val) {
                         return validate(val!, 15, 2);
                       },
-                    ),Row(children: [ Center(child: switcheadaptive()),Text(" هل العقد موقع ؟")]),
-                    
-                   SizedBox(height: 30,),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 213, 204, 204),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            width: 1),
+                        color: Color.fromARGB(255, 252, 252, 253),
                       ),
-                 child:myfile==null ?Text(" No image selected",style: TextStyle(color: Colors.blue),):Image.file(myfile!), 
+                      child: myfile == null
+                          ? InkWell(
+                            child: Text(
+                                " اضغط هنا لارفاق ملف ",
+                                style: TextStyle(color: Color.fromARGB(255, 11, 53, 81)),
+                              ),
+                              onTap: () async {
+                              await uploadImage();
+                              },
+                          )
+                          : Image.file(myfile!),
                     ),
+                 
                     CustomButton(
-                      text: "selectimage",
+                      text: " اضافة ",
                       onPress: () async {
-                        await uploadImage();
-                    
-                      },
-                    ),
-                    CustomButton(
-                      text: "Add",
-                      onPress: () async {
-                        
                         await Add();
                       },
                     ),
                   ],
                 )),
-          )
+          ),
         ],
       ),
-    );
+    ));
   }
 
   Add() async {
     if (formstate.currentState!.validate()) {
-      var response = await _request.postFile(AddUrl, {
-        "contra_name": name.text,
-        "contra_date": date.text,
-        "contra_issigned":issigned? "1":"0",
-        "contra_salary": salary.text,
-        "doc_id":Viewtype.type_id.toString()
-      },myfile!);
+      var response = await _request.postFile(
+          AddSubTypeUrl,
+          {
+            "contra_name": name.text,
+            "contra_date": date.text,
+            "contra_issigned": "1",
+            "contra_salary": salary.text,
+            "doc_id": Viewtype.type_id.toString()
+          },
+          myfile!);
       print(response);
       if (response['status'] == "success") {
         Get.snackbar(
@@ -143,8 +169,7 @@ class _AddState extends State<Add> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-            Get.to(() => Subtype()); 
-    
+        Get.to(() => Subtype());
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
@@ -157,25 +182,22 @@ class _AddState extends State<Add> {
     try {
       XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
       setState(() {
-          myfile = File(xfile!.path);
+        myfile = File(xfile!.path);
       });
-    
     } on PlatformException catch (e) {
       print("================================>");
       print(e);
     }
   }
+
   Widget switcheadaptive() {
     return Switch(
-      value:issigned,
+      value: issigned,
       onChanged: (value) {
-          setState(() {
-            issigned=value;
-          });
+        setState(() {
+          issigned = value;
+        });
       },
     );
   }
-  
-
-
 }

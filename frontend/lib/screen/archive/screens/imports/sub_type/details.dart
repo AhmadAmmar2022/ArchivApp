@@ -8,7 +8,10 @@ import 'package:frontier/main.dart';
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
+import '../../../../../widget/customButton.dart';
 import '../../../../../widget/customcard.dart';
+import '../type/edit.dart';
+import 'edite.dart';
 import 'view.dart';
 
 class details extends StatelessWidget {
@@ -18,115 +21,178 @@ class details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: Icon(Icons.navigate_next_outlined))
-            ],
-            title: Text("details"),
-            backgroundColor: Color.fromRGBO(126, 95, 2, 1),
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                ZoomDrawer.of(context)!.toggle();
-              },
-            )),
         body: Container(
+            height: size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  "images/6.png",
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
             child: ListView(
-          children: [
-            FutureBuilder(
-                future: getData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        itemCount: snapshot.data['data'].length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, i) {
-                          return Container(
-                            
-                            margin: EdgeInsets.all(10),
-                            child: Column(
-                              children: [
-                                DataTable(
-                                  checkboxHorizontalMargin: 4,
-                                  border: TableBorder.all(
-                                      color: Colors.black,
-                                      style: BorderStyle.solid,
-                                      width: 1),
-                                  columns: [
-                                    DataColumn(
-                                        label: Text('اسم الجهة ',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold))),
-                                    DataColumn(
-                                        label: Text('التاريخ ',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold))),
-                                    DataColumn(
-                                        label: Text('المبلغ ',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold))),
-                                  ],
-                                  rows: [
-                                    DataRow(cells: [
-                                      DataCell(Text(
-                                          '${snapshot.data['data'][i]['contra_name']}')),
-                                      DataCell(Text(
-                                          '${snapshot.data['data'][i]['contra_date']}')),
-                                      DataCell(Text(
-                                          '${snapshot.data['data'][i]['contra_salary']}')),
+              children: [
+                Row(children: [
+                  IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      ZoomDrawer.of(context)!.toggle();
+                    },
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 280,
+                  ),
+                  Image.asset("images/5.png")
+                ]),
+                FutureBuilder(
+                    future: getData(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount: snapshot.data['data'].length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return Container(
+                                margin: EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    Row(children: [
+                                      Expanded(
+                                          child: Container(
+                                        height: 40,
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Color(0XFF13263D),
+                                            )),
+                                        child: Center(
+                                            child: Text(
+                                                "${snapshot.data['data'][i]['contra_date']}",
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 28, 26, 89)))),
+                                      )),
+                                      Expanded(
+                                          child: Container(
+                                        height: 40,
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Color(0XFF13263D),
+                                          ),
+                                        ),
+                                        child: Center(
+                                            child: Text(
+                                                "${snapshot.data['data'][i]['contra_salary']}",
+                                                style: TextStyle(
+                                                  color: Color(0XFF13263D),
+                                                ))),
+                                      )),
+                                      Expanded(
+                                          child: Container(
+                                        height: 40,
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Color(0XFF13263D),
+                                            )),
+                                        child: Center(
+                                            child: Text(
+                                                "${snapshot.data['data'][i]['contra_name']}",
+                                                style: TextStyle(
+                                                  color: Color(0XFF13263D),
+                                                ))),
+                                      ))
                                     ]),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      height: size.height,
+                                      width: size.width,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xff7c94b6),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              '$imageurl/${snapshot.data['data'][i]['contra_image']}'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        border: Border.all(
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: size.width / 1.2,
+                                      margin: EdgeInsets.all(10),
+                                      child: Row(
+                                        children: [
+                                          CustomButton(
+                                            text: " طباعة ",
+                                            onPress: () async {
+                                              // await Add();
+                                            },
+                                          ),
+                                          CustomButton(
+                                            text: " حذف ",
+                                            onPress: () async {
+                                              // await Add();
+                                            },
+                                          ),
+                                          CustomButton(
+                                            text: " تعديل ",
+                                            onPress: () async {
+                                              await Get.to(() => Edit(
+                                                  contract: snapshot
+                                                      .data['data'][i]));
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    )
                                   ],
-                                ),SizedBox(height: 20,),
-                                
-                                Container(
-                                  width: 400,
-                                  height: 600,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff7c94b6),
-                                    image:  DecorationImage(
-                                      image: NetworkImage(
-                                                 '$imageurl/${snapshot.data['data'][i]['contra_image']}'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    border: Border.all(
-                                      width: 8,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        });
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        '${snapshot.error} occurred',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    );
-                  }
+                                ),
+                              );
+                            });
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            '${snapshot.error} occurred',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        );
+                      }
 
-                  return Text("Eroor");
-                })
-          ],
-        )));
+                      return Text("Eroor");
+                    })
+              ],
+            )));
   }
 
   getData() async {
+    print(Subtype.subtype_id.toString());
     var response = await _request
         .postRequest(getdetails, {"contra_id": Subtype.subtype_id.toString()});
     if (response['status'] == "success") {

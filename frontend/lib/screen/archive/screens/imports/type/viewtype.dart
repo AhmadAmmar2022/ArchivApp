@@ -31,6 +31,9 @@ class Viewtype extends StatefulWidget {
 
 class _ViewtypeState extends State<Viewtype> {
   Request _request = Request();
+
+
+
   TextEditingController search = TextEditingController();
   @override
   Widget build(BuildContext context) {

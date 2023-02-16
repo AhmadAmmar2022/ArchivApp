@@ -11,15 +11,17 @@ import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
+import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customcard.dart';
 
+import '../../../../../widget/customcardchild.dart';
 import 'add.dart';
 
 class Subtype extends StatefulWidget {
-   static late String subtype_id;
-  Subtype({super.key, });
-
-
+  static late String subtype_id;
+  Subtype({
+    super.key,
+  });
 
   @override
   State<Subtype> createState() => _SubtypeState();
@@ -27,7 +29,7 @@ class Subtype extends StatefulWidget {
 
 class _SubtypeState extends State<Subtype> {
   Request _request = Request();
-
+  TextEditingController search = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,86 +37,108 @@ class _SubtypeState extends State<Subtype> {
           onPressed: () {
             Get.to(() => Add());
           },
-          backgroundColor: Colors.orange,
+          backgroundColor: Color(0xff27394E),
           child: const Icon(Icons.add),
         ),
-        appBar: AppBar(
-            title: Text(" الاصناف الفرعية "),
-            backgroundColor: Color.fromRGBO(126, 95, 2, 1),
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                ZoomDrawer.of(context)!.toggle();
-              },
-            )),
         body: Container(
+            height: size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  "images/6.png",
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
             child: ListView(
-          children: [
-            FutureBuilder(
-                future: getdata(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                        ),
-                        itemCount: snapshot.data['data'].length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return customCard(
-                              // onPreesEdit: () async {
-                              //   await Get.to(() =>
-                              //       Edit(contract: snapshot.data['data'][i]));
-                              // },
-                              // onPreesDelete: () async {
-                              //   var response = await _request.postRequest(
-                              //       deleteURL, {
-                              //     "contra_id": snapshot.data['data'][i]
-                              //             ['contra_id']
-                              //         .toString(),
-                              //             "image_name": snapshot.data['data'][i]
-                              //             ['contra_image']
-                              //         .toString()
-                              //   });
-                              //   if (response['status'] =="success") {
-                              //        setState(() {
-                                       
-                              //        });
-                              //   }
-                              // },
-                            
-                              name:
+              children: [
+                Row(children: [
+                  IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      ZoomDrawer.of(context)!.toggle();
+                    },
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 280,
+                  ),
+                  Image.asset("images/5.png")
+                ]),
+                  CustomTextFild(
+                  fillColor: Color.fromARGB(255, 247, 248, 250),
+                  icon: Icon(Icons.search),
+                  hint: "Search",
+                  controller: search,
+                  valu: (val) {},
+                ),
+                FutureBuilder(
+                    future: getdata(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return GridView.builder(
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                            ),
+                            itemCount: snapshot.data['data'].length,
+                            itemBuilder: (BuildContext context, int i) {
+                              return InkWell(
+                                child: CustomCardChild(
+                                  // onPreesEdit: () async {
+                                  //   await Get.to(() =>
+                                  //       Edit(contract: snapshot.data['data'][i]));
+                                  // },
+                                  // onPreesDelete: () async {
+                                  //   var response = await _request.postRequest(
+                                  //       deleteURL, {
+                                  //     "contra_id": snapshot.data['data'][i]
+                                  //             ['contra_id']
+                                  //         .toString(),
+                                  //             "image_name": snapshot.data['data'][i]
+                                  //             ['contra_image']
+                                  //         .toString()
+                                  //   });
+                                  //   if (response['status'] =="success") {
+                                  //        setState(() {
+                              
+                                  //        });
+                                  //   }
+                                  // },
+                              
+                                  name:
                                   "${snapshot.data['data'][i]['contra_name']}",
-                            valueColor:
-                                  snapshot.data['data'][i]['contra_date'],
-                                 );
-                        });
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        '${snapshot.error} occurred',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    );
-                  }
-
-                  return Text("");
-                })
-          ],
-        )));
+                                
+                                ),
+                                onTap: () {
+                                  Subtype.subtype_id=snapshot.data['data'][i]['contra_id'];
+                                  Get.to(details());
+                                },
+                              );
+                            });
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            '${snapshot.error} occurred',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        );
+                      }
+                      return Text("");
+                    })
+              ],
+            )));
   }
-
 
   getdata() async {
     print(Viewtype.type_id);
-    var response = await _request.postRequest(getsubtype, {
-      "type_id":Viewtype.type_id
-    });
+    var response =
+        await _request.postRequest(getsubtype, {"type_id": Viewtype.type_id});
     if (response['status'] == "success") {
       return response;
     }
@@ -123,13 +147,10 @@ class _SubtypeState extends State<Subtype> {
   delete(String i) async {
     var response =
         await _request.postRequest(deleteURL, {"contra_id": i.toString()});
-  
+
     if (response['status'] == "success") {
       print(response);
       return response;
     }
   }
 }
-
-
-
