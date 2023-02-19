@@ -196,6 +196,6 @@ print("=====================>");
   Widget buildColorPicker() => ColorPicker(
       pickerColor: color,
       onColorChanged: (color) => setState(() {
-            this.color = color;
+      this.color = color;
           }));
 }

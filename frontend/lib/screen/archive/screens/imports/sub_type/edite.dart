@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,64 +20,62 @@ import 'view.dart';
 
 class Edit extends StatefulWidget {
   final contract;
-  Edit({super.key,required this.contract});
+  Edit({super.key, required this.contract});
   @override
   _EditState createState() => _EditState();
 }
 
 class _EditState extends State<Edit> {
- 
   var response;
   File? myfile;
-    bool issigned=false;
+  bool issigned = false;
   TextEditingController name = TextEditingController();
   TextEditingController date = TextEditingController();
   TextEditingController salary = TextEditingController();
   Request _request = Request();
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
 
-    @override
-    void initState() {
-      name.text=widget.contract["contra_name"];
-      date.text=widget.contract["contra_date"];
-      salary.text=widget.contract["contra_salary"];
-     
-      
+  @override
+  void initState() {
+    name.text = widget.contract["contra_name"];
+    date.text = widget.contract["contra_date"];
+    salary.text = widget.contract["contra_salary"];
+
     super.initState();
-    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      Container(
-            height: size.height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "images/6.png",
-                ),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child:ListView(
+        body: Container(
+      height: size.height,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            "images/6.png",
+          ),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: ListView(
         children: [
           SizedBox(height: 100),
           Container(
-     decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
               color: Color.fromARGB(255, 250, 251, 253),
               border: Border.all(
                   color: Color.fromARGB(255, 255, 255, 255), width: 0),
             ),
             margin: EdgeInsets.all(15),
-              padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             child: Form(
                 key: formstate,
                 child: Column(
                   children: [
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
-                        icon: Icon(Icons.person),
+                      fillColor: Color(0xff838C96),
+                      icon: Icon(Icons.person),
                       hint: "اسم الجهة",
                       controller: name,
                       valu: (val) {
@@ -87,8 +83,8 @@ class _EditState extends State<Edit> {
                       },
                     ),
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
-                        icon: Icon(Icons.password),
+                      fillColor: Color(0xff838C96),
+                      icon: Icon(Icons.password),
                       hint: "تاريخ توقيع العقد ",
                       controller: date,
                       valu: (val) {
@@ -96,7 +92,7 @@ class _EditState extends State<Edit> {
                       },
                     ),
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
+                      fillColor: Color(0xff838C96),
                       icon: Icon(Icons.email),
                       hint: "المبلغ",
                       controller: salary,
@@ -104,8 +100,7 @@ class _EditState extends State<Edit> {
                         return validate(val!, 15, 2);
                       },
                     ),
-
-                       Container(
+                    Container(
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 213, 204, 204),
                       ),
@@ -114,25 +109,20 @@ class _EditState extends State<Edit> {
                               '$imageurl/${widget.contract["contra_image"]}')
                           : Image.file(myfile!),
                     ),
-
-                         InkWell(
-                           child: Text(
-                                  " اضغط هنا لتعديل صورة ",
-                                  style: TextStyle(color: Color.fromARGB(255, 11, 53, 81)),
-                                ),
-                                onTap: () async{
-                                         await uploadImage();
-                                },
-                         ),
-                  
-              
+                    InkWell(
+                      child: Text(
+                        " اضغط هنا لتعديل صورة ",
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 11, 53, 81)),
+                      ),
+                      onTap: () => _showBottomSheet(),
+                    ),
                     CustomButton(
                       text: "Edit ",
                       onPress: () async {
                         await editeData();
                       },
                     ),
-                  
                   ],
                 )),
           )
@@ -141,33 +131,33 @@ class _EditState extends State<Edit> {
     ));
   }
 
-      editeData() async {
-      if (formstate.currentState!.validate()) {
-         if (myfile==null)
-         {
+  editeData() async {
+    if (formstate.currentState!.validate()) {
+      if (myfile == null) {
         response = await _request.postRequest(editSubType, {
-        "contra_name": name.text,
-        "contra_date":date.text,
-        "contra_issigned":"1",
-        "contra_salary":salary.text,
-        "contra_image":widget.contract["contra_image"].toString(),
-        "contra_id":widget.contract["contra_id"].toString(),
-        "doc_id":Viewtype.type_id.toString()
+          "contra_name": name.text,
+          "contra_date": date.text,
+          "contra_issigned": "1",
+          "contra_salary": salary.text,
+          "contra_image": widget.contract["contra_image"].toString(),
+          "contra_id": widget.contract["contra_id"].toString(),
+          "doc_id": Viewtype.type_id.toString()
         });
-         }
-         else {
-       response = await _request.postFile(editSubType, {
-        "contra_name": name.text,
-        "contra_date":date.text,
-        "contra_issigned":"1",
-        "contra_salary":salary.text,
-        "contra_image":widget.contract["contra_image"].toString(),
-        "contra_id":widget.contract["contra_id"].toString(),
-        "doc_id":Viewtype.type_id.toString()
-
-      },myfile!);
-         }
-       print(response);
+      } else {
+        response = await _request.postFile(
+            editSubType,
+            {
+              "contra_name": name.text,
+              "contra_date": date.text,
+              "contra_issigned": "1",
+              "contra_salary": salary.text,
+              "contra_image": widget.contract["contra_image"].toString(),
+              "contra_id": widget.contract["contra_id"].toString(),
+              "doc_id": Viewtype.type_id.toString()
+            },
+            myfile!);
+      }
+      print(response);
       if (response['status'] == "success") {
         Get.snackbar(
           "${name.text}",
@@ -182,8 +172,7 @@ class _EditState extends State<Edit> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-    Get.to(() => Subtype());
-  
+        Get.to(() => Subtype());
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
@@ -191,7 +180,8 @@ class _EditState extends State<Edit> {
       }
     }
   }
-    Future uploadImage() async {
+
+  Future uploadImageFromGallary() async {
     try {
       XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
       setState(() {
@@ -202,16 +192,69 @@ class _EditState extends State<Edit> {
       print(e);
     }
   }
-    Widget switcheadaptive() {
+
+  Future uploadImageFromCamira() async {
+    try {
+      XFile? xfile = await ImagePicker().pickImage(source: ImageSource.camera);
+      setState(() {
+        myfile = File(xfile!.path);
+      });
+    } on PlatformException catch (e) {
+      print("================================");
+      print(e);
+    }
+  }
+
+  Widget switcheadaptive() {
     return Switch(
-      value:issigned,
+      value: issigned,
       onChanged: (value) {
-          setState(() {
-            issigned=value;
-          });
+        setState(() {
+          issigned = value;
+        });
       },
     );
   }
 
-
+  _showBottomSheet() {
+    showModalBottomSheet<void>(
+      backgroundColor: Color(0xFF5C81AC),
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  " اختيار صورة من",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 247, 248, 249), fontSize: 20),
+                ),
+                Container(
+                  child: ListTile(
+                    title: Text("المعرض"),
+                    leading: Icon(Icons.image),
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      await uploadImageFromGallary();
+          
+                    },
+                  ),
+                ),
+                Container(
+                  child: ListTile(
+                    title: Text("الكميرا"),
+                    leading: Icon(Icons.camera),
+                    onTap: () async {
+                        Navigator.of(context).pop();
+                      await uploadImageFromCamira();
+                    
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
 }

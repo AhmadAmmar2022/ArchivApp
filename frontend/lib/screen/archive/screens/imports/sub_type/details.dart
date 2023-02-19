@@ -154,7 +154,39 @@ class details extends StatelessWidget {
                                           CustomButton(
                                             text: " حذف ",
                                             onPress: () async {
-                                              // await Add();
+                                              var response = await _request
+                                                  .postRequest(deleteURL, {
+                                                "contra_id": snapshot
+                                                    .data['data'][i]
+                                                        ['contra_id']
+                                                    .toString(),
+                                                "image_name": snapshot
+                                                    .data['data'][i]
+                                                        ['contra_image']
+                                                    .toString()
+                                              });
+                                              if (response['status'] ==
+                                                  "success") {
+                                                    Get.to(()=>Subtype());
+                                                // Get.snackbar(
+                                                //   "success",
+                                                //   "  completed successfully",
+                                                //   icon: Icon(Icons.person,
+                                                //       color: Colors.white),
+                                                //   snackPosition:
+                                                //       SnackPosition.BOTTOM,
+                                                //   backgroundColor:
+                                                //       Colors.orange,
+                                                //   borderRadius: 20,
+                                                //   margin: EdgeInsets.all(15),
+                                                //   colorText: Colors.white,
+                                                //   duration:
+                                                //       Duration(seconds: 4),
+                                                //   isDismissible: true,
+                                                //   forwardAnimationCurve:
+                                                //       Curves.easeOutBack,
+                                                // );
+                                              }
                                             },
                                           ),
                                           CustomButton(

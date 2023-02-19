@@ -83,12 +83,12 @@ class _ViewtypeState extends State<Viewtype> {
                   margin: EdgeInsets.all(10),
                   height: size.height / 2.4,
                   width: size.width / 3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Color(0XFFAAAEB2),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 255, 255, 255), width: 0),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   borderRadius: BorderRadius.circular(50),
+                  //   color: Color(0XFFAAAEB2),
+                  //   border: Border.all(
+                  //       color: Color.fromARGB(255, 255, 255, 255), width: 0),
+                  // ),
                   child: FutureBuilder(
                       future: getdata(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -97,7 +97,7 @@ class _ViewtypeState extends State<Viewtype> {
                               shrinkWrap: true,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
+                                crossAxisCount: 2,
                               ),
                               itemCount: snapshot.data['data'].length,
                               itemBuilder: (BuildContext context, int i) {
@@ -125,7 +125,13 @@ class _ViewtypeState extends State<Viewtype> {
                                       name:
                                           "${snapshot.data['data'][i]['type_name']}",
                                       valueColor: int.parse(
-                                          "${snapshot.data['data'][i]['type_color']}")),
+                                          "${snapshot.data['data'][i]['type_color']}"),
+                                      onPreesEdit: () {
+                                        Get.to(EditType(contract:snapshot.data['data'][i] ));
+                                      },
+                                          
+                                          
+                                          ),
                                   onTap: () {
                                     Viewtype.type_id = snapshot.data['data'][i]['type_id'].toString();
                                     print("===============>");
@@ -159,7 +165,7 @@ class _ViewtypeState extends State<Viewtype> {
             )));
   }
 
-  getdata() async {
+    getdata() async {
     var response = await _request.getRequest(getTypeURL);
     if (response['status'] == "success") {
       return response;

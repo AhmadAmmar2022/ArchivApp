@@ -5,6 +5,7 @@ import 'package:frontier/screen/archive/draweres/drawerimport/drawerimport.dart'
 import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 import 'package:frontier/screen/homepage.dart';
 import 'package:get/get.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedpref;
@@ -22,9 +23,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
         return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-        primarySwatch: Colors.blue,
-        ),
-        home: Login());
+   theme: ThemeData(
+    primarySwatch: Colors.blue,
+   fontFamily: "Almarai"
+  ),
+        home: Viewtype());
   }
 }

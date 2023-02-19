@@ -121,9 +121,7 @@ class _AddState extends State<Add> {
                                 " اضغط هنا لارفاق ملف ",
                                 style: TextStyle(color: Color.fromARGB(255, 11, 53, 81)),
                               ),
-                              onTap: () async {
-                              await uploadImage();
-                              },
+                              onTap:()=>_showBottomSheet(),
                           )
                           : Image.file(myfile!),
                     ),
@@ -178,7 +176,18 @@ class _AddState extends State<Add> {
     }
   }
 
-  Future uploadImage() async {
+  Future uploadImageFromCamira() async {
+    try {
+      XFile? xfile = await ImagePicker().pickImage(source: ImageSource.camera);
+      setState(() {
+        myfile = File(xfile!.path);
+      });
+    } on PlatformException catch (e) {
+      print("================================>");
+      print(e);
+    }
+  }
+    Future uploadImageFromGallary() async {
     try {
       XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
       setState(() {
@@ -200,4 +209,46 @@ class _AddState extends State<Add> {
       },
     );
   }
+  _showBottomSheet() {
+    showModalBottomSheet<void>(
+      backgroundColor: Color(0xFF5C81AC),
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  " اختيار صورة من",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 247, 248, 249), fontSize: 20),
+                ),
+                Container(
+                  child: ListTile(
+                    title: Text("المعرض"),
+                    leading: Icon(Icons.image),
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      await uploadImageFromGallary();
+          
+                    },
+                  ),
+                ),
+                Container(
+                  child: ListTile(
+                    title: Text("الكميرا"),
+                    leading: Icon(Icons.camera),
+                    onTap: () async {
+                        Navigator.of(context).pop();
+                      await uploadImageFromCamira();
+                    
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+  
 }

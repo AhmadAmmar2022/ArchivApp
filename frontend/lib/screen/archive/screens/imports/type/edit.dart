@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:frontier/main.dart';
 import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 
@@ -27,14 +28,18 @@ class EditType extends StatefulWidget {
 class _EditTypeState extends State<EditType> {
   File? myfile;
   var response;
-
+  
   TextEditingController name = TextEditingController();
 
   Request _request = Request();
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
-
+  late Color color ;
   @override
   void initState() {
+    
+    setState(() {
+      color=Color(int.parse(widget.contract["type_color"]));
+    });
     name.text = widget.contract["type_name"];
     
     super.initState();
@@ -43,32 +48,34 @@ class _EditTypeState extends State<EditType> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(Icons.navigate_next_outlined))
-        ],
-        title: Text("تعديل"),
-        backgroundColor: Color.fromRGBO(126, 95, 2, 1),
+        body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            "images/6.png",
+          ),
+          fit: BoxFit.fill,
+        ),
       ),
-      body: ListView(
+      child: ListView(
         children: [
           Container(
+            height: 300,
+            width: 200,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 213, 204, 204),
-                border: Border.all(color: Colors.orange, width: 4),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            // color: Color.fromARGB(255, 182, 132, 114),
-            padding: EdgeInsets.all(10),
+              borderRadius: BorderRadius.circular(25),
+              color: Color.fromARGB(255, 250, 251, 253),
+              border: Border.all(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 0),
+            ),
+            margin: EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Form(
                 key: formstate,
-                child: Column(
+                child: ListView(
                   children: [
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
+                      fillColor: Color(0xff838C96),
                       icon: Icon(Icons.person),
                       hint: "اسم الجهة",
                       controller: name,
@@ -76,52 +83,43 @@ class _EditTypeState extends State<EditType> {
                         return validate(val!, 25, 2);
                       },
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 213, 204, 204),
-                      ),
-                      child: myfile == null
-                          ? Image.network(
-                              '$imageurl/${widget.contract["type_img"]}')
-                          : Image.file(myfile!),
+                        Container(
+                        child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.folder),
+                      color: color,
+                      iconSize: 80,
+                    )),
+                    InkWell(
+                      child: Center(child: Text(" تغيير اللون")),
+                      onTap: () {
+                        pickColor(context);
+                      },
                     ),
                     CustomButton(
-                      text: "Editimage",
+                      text: "  EditType ",
                       onPress: () async {
-                        await uploadImage();
+                        await editTypee();
                       },
                     ),
                   ],
                 )),
           ),
-          CustomButton(
-            text: "EditType ",
-            onPress: () async {
-              await editTypee();
-            },
-          ),
         ],
       ),
-    );
+    ));
   }
 
   editTypee() async {
-    if (formstate.currentState!.validate()) {
-      if (myfile == null) {
-        response = await _request.postRequest(editTypeURL, {
-          "type_name":  name.text,
-          "type_id"  :  widget.contract["type_id"].toString(),
-          "type_img" :  widget.contract["type_img"].toString(),
-        });
-      } else {
-          response = await _request.postFile(editTypeURL,{
-          "type_name":   name.text.toString(),
-          "type_id"  :   widget.contract["type_id"].toString(),
-          "type_img" :   widget.contract["type_img"].toString(),
-      },myfile!);
-      }
+    // if (formstate.currentState!.validate()) {
+      response = await _request.postRequest(editTypeURL, {
+        "type_name": name.text,
+        "type_id" : widget.contract["type_id"].toString(),
+        "type_color":color.value.toString(),
+      });
+
       print(response);
-      if (response['status'] == "success") {
+      if (response['status'] =="success") {
         Get.snackbar(
           "${name.text}",
           "update successfully",
@@ -135,25 +133,37 @@ class _EditTypeState extends State<EditType> {
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-    Get.to(() => Viewtype());
-  
+        Get.to(() => Viewtype());
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
         );
       }
-    }
+    
   }
 
-  Future uploadImage() async {
-    try {
-      XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
-      setState(() {
-        myfile = File(xfile!.path);
-      });
-    } on PlatformException catch (e) {
-      print("================================>");
-      print(e);
-    }
-  }
+
+   void pickColor(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text('choose color '),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  buildColorPicker(),
+                  TextButton(
+                      onPressed: (() {
+                        Navigator.of(context).pop();
+                      }),
+                      child: Text("Select")),
+                ],
+              ),
+            ),
+          ));
+  Widget buildColorPicker() => ColorPicker(
+      pickerColor: color,
+      onColorChanged: (color) => setState(() {
+            this.color = color;
+          }));
 }

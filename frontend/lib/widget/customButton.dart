@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+
 class CustomButton extends StatelessWidget {
   final void Function()? onPress;
   final String text;
@@ -29,7 +30,7 @@ class CustomButton extends StatelessWidget {
       onPressed: onPress,
       child: Text(
          "$text",
-         style: TextStyle(color: Colors.white),
+       
       ),
     ));
   }
