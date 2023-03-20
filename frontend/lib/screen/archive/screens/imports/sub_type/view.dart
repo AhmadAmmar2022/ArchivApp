@@ -15,6 +15,7 @@ import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customcard.dart';
 
 import '../../../../../widget/customcardchild.dart';
+import 'FilesPage.dart';
 import 'add.dart';
 
 class Subtype extends StatefulWidget {
@@ -60,6 +61,7 @@ class _SubtypeState extends State<Subtype> {
                     },
                     color: Colors.white,
                   ),
+                
                   const SizedBox(
                     width: 280,
                   ),
@@ -71,12 +73,13 @@ class _SubtypeState extends State<Subtype> {
                   hint: "Search",
                   controller: search,
                   valu: (val) {},
-                ),
+                ),   
                 FutureBuilder(
                     future: getdata(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         return GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(

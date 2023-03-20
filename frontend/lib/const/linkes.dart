@@ -1,5 +1,5 @@
-const  String  servername="http://10.0.2.2/restApiFlutter/backend";
-const  String  imageurl="http://10.0.2.2/restApiFlutter/backend/upload";
+const  String  servername="http://192.168.188.11/restApiFlutter/backend";
+const  String  imageurl="http://192.168.188.181/restApiFlutter/backend/upload";
 const  String SignUpUrl="$servername/Auth/signup.php";
 const  String LoginUrl="$servername/Auth/login.php";
 const  String getsubtype="$servername/archive/view.php";

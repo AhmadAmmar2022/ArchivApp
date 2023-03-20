@@ -143,20 +143,21 @@ class _EditState extends State<Edit> {
           "contra_id": widget.contract["contra_id"].toString(),
           "doc_id": Viewtype.type_id.toString()
         });
-      } else {
-        response = await _request.postFile(
-            editSubType,
-            {
-              "contra_name": name.text,
-              "contra_date": date.text,
-              "contra_issigned": "1",
-              "contra_salary": salary.text,
-              "contra_image": widget.contract["contra_image"].toString(),
-              "contra_id": widget.contract["contra_id"].toString(),
-              "doc_id": Viewtype.type_id.toString()
-            },
-            myfile!);
-      }
+      } 
+      // else {
+      //   response = await _request.postFile(
+      //       editSubType,
+      //       {
+      //         "contra_name": name.text,
+      //         "contra_date": date.text,
+      //         "contra_issigned": "1",
+      //         "contra_salary": salary.text,
+      //         "contra_image": widget.contract["contra_image"].toString(),
+      //         "contra_id": widget.contract["contra_id"].toString(),
+      //         "doc_id": Viewtype.type_id.toString()
+      //       },
+      //       myfile!);
+      // }
       print(response);
       if (response['status'] == "success") {
         Get.snackbar(

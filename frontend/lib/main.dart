@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
         return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-   theme: ThemeData(
-    primarySwatch: Colors.blue,
-   fontFamily: "Almarai"
-  ),
+        theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: "Almarai"
+        ),
         home: Viewtype());
   }
 }

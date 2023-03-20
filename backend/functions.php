@@ -8,35 +8,43 @@ function filterRequest($requst)
 }
 
 
-function  imageupload($imagerequesrt)
+function  imageupload($Files)
 {
+
+
    global $msgerror;
-   $imagename = rand(1000, 10000).$_FILES[$imagerequesrt]['name'];
-   $imagetmp = $_FILES[$imagerequesrt]['tmp_name'];
-   $imagesize = $_FILES[$imagerequesrt]['size'];
-   $allowExt = array("png", "jpg", "gif", "pdf");
-   $stringtoarray = explode(".", $imagename);
-   $ext = end($stringtoarray);
-   $ext = strtolower($ext);
-   if (!empty($imagename) && !in_array($ext, $allowExt)) {
-      $msgerror[] = "Ext";
+   $total = count($_FILES['file']['name']);
+   echo $total;
+   $file_name =  array();
+   for ($i = 0; $i < $total; $i++) {
+
+      $imagename = rand(1000, 10000) . $_FILES[$Files]['name'][$i];
+      $imagetmp = $_FILES[$Files]['tmp_name'][$i];
+      $imagesize = $_FILES[$Files]['size'][$i]; // i
+      $allowExt = array("png", "jpg", "gif", "pdf");
+      $stringtoarray = explode(".", $imagename);
+      $ext = end($stringtoarray);
+      $ext = strtolower($ext);
+      if (!empty($imagename) && !in_array($ext, $allowExt)) {
+         $msgerror[] = "Ext";
+      }
+      if ($imagesize > 8 * mb) {
+         $msgerror[] = "size ";
+      }
+      if (empty($msgerror)) {
+         move_uploaded_file($imagetmp, "../upload/" . $imagename);
+         $file_name[] = $imagename;
+      } else {
+         return "fail";
+      }
    }
-   if ($imagesize >5 * mb) {
-      $msgerror[] = "size ";
-   }
-   if (empty($msgerror)) {
-      move_uploaded_file($imagetmp, "../upload/".$imagename);
-      return $imagename;
-   } else {
-      return "fail";
-    
-   }
+   return $file_name;
 }
 
- function  deleteFile($dir,$imagename){
-    if (file_exists($dir."/".$imagename))
-    {
-        unlink($dir ."/".$imagename );
-    }
- }
+function  deleteFile($dir, $imagename)
+{
+   if (file_exists($dir . "/" . $imagename)) {
+      unlink($dir . "/" . $imagename);
+   }
+}
 ?>
