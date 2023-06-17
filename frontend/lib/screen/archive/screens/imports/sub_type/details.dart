@@ -14,9 +14,19 @@ import '../type/edit.dart';
 import 'edite.dart';
 import 'view.dart';
 
-class details extends StatelessWidget {
+class details extends StatefulWidget {
   details({super.key});
 
+  @override
+  State<details> createState() => _detailsState();
+}
+
+class _detailsState extends State<details> {
+  @override
+  void initState() {
+     getFilename();
+    super.initState();
+  }
   Request _request = Request();
 
   @override
@@ -224,6 +234,7 @@ class details extends StatelessWidget {
   }
 
   getData() async {
+  
     print(Subtype.subtype_id.toString());
     var response = await _request
         .postRequest(getdetails, {"contra_id": Subtype.subtype_id.toString()});
@@ -232,5 +243,20 @@ class details extends StatelessWidget {
       print(Subtype.subtype_id);
       return response;
     }
+  }
+
+  getFilename() async{
+    print("========================>");
+         print(Subtype.subtype_id.toString());
+    var res = await _request
+        .postRequest(getanamefile, {"contra_id": Subtype.subtype_id.toString()});
+    if (res['status'] == "success") {
+      print("---------------------------->");
+      print(Subtype.subtype_id);
+      print("==============>");
+      print(res);
+      return res; 
+    }
+ 
   }
 }

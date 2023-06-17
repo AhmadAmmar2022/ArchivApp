@@ -2,7 +2,8 @@
 include "../connect.php";
    
 $typeid=filterRequest("type_id");
-$stmp = $con->prepare(" SELECT * FROM  `contract`  WHERE `doc_id` =?");
+$stmp = $con->prepare("select * FROM contract where contract.doc_id=?");
+
 
 $stmp->execute(array(
  $typeid

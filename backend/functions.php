@@ -10,17 +10,16 @@ function filterRequest($requst)
 
 function  imageupload($Files)
 {
-
-
    global $msgerror;
-   $total = count($_FILES['file']['name']);
-   echo $total;
+   
+   $total = count($_FILES['files']['name']);
+  
    $file_name =  array();
    for ($i = 0; $i < $total; $i++) {
 
-      $imagename = rand(1000, 10000) . $_FILES[$Files]['name'][$i];
+      $imagename = rand(1000, 10000).$_FILES[$Files]['name'][$i];
       $imagetmp = $_FILES[$Files]['tmp_name'][$i];
-      $imagesize = $_FILES[$Files]['size'][$i]; // i
+      $imagesize = $_FILES[$Files]['size'][$i]; 
       $allowExt = array("png", "jpg", "gif", "pdf");
       $stringtoarray = explode(".", $imagename);
       $ext = end($stringtoarray);
@@ -32,7 +31,7 @@ function  imageupload($Files)
          $msgerror[] = "size ";
       }
       if (empty($msgerror)) {
-         move_uploaded_file($imagetmp, "../upload/" . $imagename);
+         move_uploaded_file($imagetmp, "../upload/".$imagename);
          $file_name[] = $imagename;
       } else {
          return "fail";

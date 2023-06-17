@@ -122,7 +122,7 @@ class _SubtypeState extends State<Subtype> {
                             });
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return CircularProgressIndicator(); 
                       }
                       if (snapshot.hasError) {
                         return Center(

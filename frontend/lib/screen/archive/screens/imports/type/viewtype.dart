@@ -134,7 +134,7 @@ class _ViewtypeState extends State<Viewtype> {
                                           ),
                                   onTap: () {
                                     Viewtype.type_id = snapshot.data['data'][i]['type_id'].toString();
-                                    print("===============>");
+                                    print("===============");
                                     print("");
                                     Get.to(() => Subtype(
                                         //  subtype_id: Viewtype.type_id

@@ -40,11 +40,12 @@ class _AddState extends State<Add> {
   //List<PlatformFile>? _files;
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   bool issigned = false;
-  List<File> fileList = [];
+  FilePickerResult? files;
+    List<File> Allfiles=[];
+ 
   var fileTemporary;
-  FilePickerResult? result;
-  List<File> paths = [];
-  late List<File?> _files;
+  FilePickerResult? result;// 
+  List<PlatformFile> _images = [];
   bool isloading = false;
   get getAppl => null;
   @override
@@ -126,7 +127,7 @@ class _AddState extends State<Add> {
                             color: Color.fromARGB(255, 14, 0, 0), width: 1),
                         color: Color.fromARGB(255, 252, 252, 253),
                       ),
-                      child: result != null
+                      child: files != null
                           ? GridView.builder(
                               padding: EdgeInsets.all(2),
                               gridDelegate:
@@ -135,9 +136,9 @@ class _AddState extends State<Add> {
                                 mainAxisSpacing: 4,
                                 crossAxisSpacing: 2,
                               ),
-                              itemCount: result!.files.length,
+                              itemCount: files!.files.length,
                               itemBuilder: (context, index) {
-                                final file = result!.files[index]; //
+                                final file = files!.files[index];
                                 return buildFile(file);
                               },
                             )
@@ -147,7 +148,7 @@ class _AddState extends State<Add> {
                               children: [
                                 IconButton(
                                   icon: Icon(Icons.cloud_upload),
-                                  onPressed: () => _pickedFile(),
+                                  onPressed: () => _selectFiles(),
                                   iconSize: 30,
                                 ),
                                 Text("اضغط هنا لاختيار ملف ")
@@ -162,7 +163,7 @@ class _AddState extends State<Add> {
                     // Container(
                     //   child: InkWell(
                     //     child: Text(
-                    //       " اضغط هنا لاختيار ملف ",
+                     //       " اضغط هنا لاختيار ملف ",
                     //       style: TextStyle(
                     //           color: Color.fromARGB(255, 10, 148, 240)),
                     //     ),
@@ -183,34 +184,38 @@ class _AddState extends State<Add> {
     ));
   }
 
-  Future<List<File?>> _selectFiles() async {
-    result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
-    );
+  Future<FilePickerResult?> _selectFiles() async {
+     try {
+       files = await FilePicker.platform.pickFiles(
+       allowMultiple: true,
+       );
+      if (files != null) {
+         for (PlatformFile file in files!.files) {
+          Allfiles.add(File(file.path!));
+              }
+        setState(() {});// 
+        // paths = result!.paths.map((path) => path!,).toList();
 
-    if (result != null) {
-    List<File?> file = result!.paths.map((path) => File(path!)).toList();
-    _files=file;
-          setState(() {
-          
-          });
-      // paths = result!.paths.map((path) => path!,).toList();
-  
-    }
+      }
+      } catch (e) {
+       print("Error picking files=============>: $e");
+      }
+       return files;
+    
+     }
 
-
-    return _files;
-  }
-
-  _pickedFile() async {
-    paths = (await _selectFiles()) as List<File> ;
-  }
+  // _pickedFile() async {
+  //    Allfiles= (await _selectFiles()) as List<PlatformFile> ;
+  //   setState(() {
+      
+  //   });
+  // }
 
   Future<void> _add() async {
-     paths.forEach((element) {print(element);});
-
+    // paths.forEach((element) {
+    //   print(element);
+    // });
     if (formstate.currentState!.validate()) {
-     
       var response = await _request.postFile(
           AddSubTypeUrl,
           {
@@ -220,10 +225,11 @@ class _AddState extends State<Add> {
             "contra_salary": salary.text,
             "doc_id": Viewtype.type_id.toString()
           },
-          paths);
-          print("==================> hi Ahmad ");
+          Allfiles);
+      print("==========================");// 
       print(response);
-      if (response['status'] == "success") {
+      if (response['status'] == "success") 
+      {
         Get.snackbar(
           "${name.text}",
           "completed successfully",

@@ -9,18 +9,18 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedpref;
-var size, height, width;
+var size, height, width;// Ahmad 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedpref = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget { 
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
         return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
-var request;
 
 class Request {
   getRequest(String url) async {
@@ -38,26 +36,46 @@ class Request {
     }
   }
 
-   postFile(String url, Map data, List<File> paths) async {
-    for (var file in paths) {
-    var stream = http.ByteStream(file.openRead());
-     var length = await file.length();
-     var streem = http.ByteStream(file.openRead());//open 
-     var multipartFil = await http.MultipartFile('file', stream, length, filename: file.path.split('/').last);
-     request.files.add(multipartFil);
-             }
-    data.forEach((key, value) {
-    request.fields[key] = value;
-    });
-    var myrequest = await request.send();
-    var response = await http.Response.fromStream(myrequest);// 
-    if (response.statusCode==200) {
-      return jsonDecode(response.body);
-    }
-    else {print("Eroor ${response.statusCode}");}
+   Future  postFile(String url, Map data, List<File> files) async {
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      for (var file in files) {
+        // var stream = http.ByteStream(file.openRead());
+        //  var length = await file.length();
+        //  var streem = http.ByteStream(file.openRead());//open
+
+        request.files
+            .add(await http.MultipartFile.fromPath('files[]', file.path));
+      }
+        data.forEach((key, value) {
+        request.fields[key] = value;
+        });
+
+      //  var multipartFil = await http.MultipartFile('file', stream, length, filename: file.path.split('/').last);
+      //  request.files.add(multipartFil);
+      
+      // var myrequest = await request.send();
+      // var response = await http.Response.fromStream(myrequest);//
+      // if (response.statusCode == 200) {
+      //   return jsonDecode(response.body);
+      // }
+      // else {print("Eroor ${response.statusCode}");
+
+      // }
+    var response = await request.send(); //
+       
+      if (response.statusCode==200) {
+        print('Files uploaded successfully!');
+      } else {
+        print('Error uploading files: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("========================>"); 
+      print(e);
     }
 
-
+  }    
+}
 // }
 //   Future<void> _sendFilesToServer(String url, Map data,List<String> paths) async {
 //  request = http.MultipartRequest("POST", Uri.parse(url));
@@ -69,11 +87,10 @@ class Request {
 //     data.forEach((key, value) {
 //     request.fields[key] = value;
 //     });
-//     var myrequest = await request.send();// 
+//     var myrequest = await request.send();//
 //    var response = await http.Response.fromStream(myrequest);
 //     if (response.statusCode == 200) {
 //       return jsonDecode(response.body);
 //     }
 //     else {print("Eroor ${response.statusCode}");}
 //     }
-}

@@ -34,7 +34,6 @@ class _AddtypeState extends State<Addtype> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 print("=====================>");
-
     return Scaffold(
         body:Container(
       decoration:const BoxDecoration(
@@ -149,7 +148,7 @@ print("=====================>");
           icon: Icon(Icons.person, color: Colors.white),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.orange,
-          borderRadius: 20,
+          borderRadius: 20, 
           margin: EdgeInsets.all(15),
           colorText: Colors.white,
           duration: Duration(seconds: 4),
