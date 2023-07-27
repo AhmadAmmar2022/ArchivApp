@@ -5,9 +5,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:frontier/Auth/login.dart';
 import 'package:frontier/const/linkes.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/imports/sub_type/details.dart';
-import 'package:frontier/screen/archive/screens/imports/sub_type/edite.dart';
-import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
+
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
@@ -15,10 +13,13 @@ import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customcard.dart';
 
 import '../../../../../widget/customcardchild.dart';
+import '../type/viewtype.dart';
 import 'FilesPage.dart';
 import 'add.dart';
+import 'details.dart';
 
 class Subtype extends StatefulWidget {
+  
   static late String subtype_id;
   Subtype({
     super.key,
@@ -149,9 +150,8 @@ class _SubtypeState extends State<Subtype> {
 
   delete(String i) async {
     var response =
-        await _request.postRequest(deleteURL, {"contra_id": i.toString()});
-
-    if (response['status'] == "success") {
+    await _request.postRequest(deleteURL, {"contra_id": i.toString()});
+    if(response['status'] == "success") {
       print(response);
       return response;
     }

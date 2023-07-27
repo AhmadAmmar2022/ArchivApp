@@ -12,6 +12,7 @@ import '../../../../../widget/customButton.dart';
 import '../../../../../widget/customcard.dart';
 import '../type/edit.dart';
 import 'edite.dart';
+import 'showImages.dart';
 import 'view.dart';
 
 class details extends StatefulWidget {
@@ -22,11 +23,11 @@ class details extends StatefulWidget {
 }
 
 class _detailsState extends State<details> {
+  late final List<String> imageLinks;
+  bool Visible=false;
   @override
-  void initState() {
-     getFilename();
-    super.initState();
-  }
+
+
   Request _request = Request();
 
   @override
@@ -134,22 +135,7 @@ class _detailsState extends State<details> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Container(
-                                      height: size.height,
-                                      width: size.width,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xff7c94b6),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              '$imageurl/${snapshot.data['data'][i]['contra_image']}'),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        border: Border.all(
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
+
                                     Container(
                                       width: size.width / 1.2,
                                       margin: EdgeInsets.all(10),
@@ -177,7 +163,7 @@ class _detailsState extends State<details> {
                                               });
                                               if (response['status'] ==
                                                   "success") {
-                                                    Get.to(()=>Subtype());
+                                                Get.to(() => Subtype());
                                                 // Get.snackbar(
                                                 //   "success",
                                                 //   "  completed successfully",
@@ -209,7 +195,14 @@ class _detailsState extends State<details> {
                                           )
                                         ],
                                       ),
-                                    )
+                                    ),
+                                    //       ListView.builder(
+                                    //    itemCount: imageLinks.length,
+                                    //   itemBuilder: (context, index) {
+
+                                    //  return Image.network('$imageurl/${imageLinks[index]}');
+                                    //       },
+                                    //       )
                                   ],
                                 ),
                               );
@@ -228,13 +221,18 @@ class _detailsState extends State<details> {
                       }
 
                       return Text("Eroor");
-                    })
+                    }),OutlinedButton(onPressed: (){
+                    setState(() {
+                      Get.to(()=>showImages());
+                    });
+                    }, child: Text(" عرض المرفقات ")),
+                      SizedBox(height: 300,),
+              
               ],
             )));
   }
 
   getData() async {
-  
     print(Subtype.subtype_id.toString());
     var response = await _request
         .postRequest(getdetails, {"contra_id": Subtype.subtype_id.toString()});
@@ -245,18 +243,5 @@ class _detailsState extends State<details> {
     }
   }
 
-  getFilename() async{
-    print("========================>");
-         print(Subtype.subtype_id.toString());
-    var res = await _request
-        .postRequest(getanamefile, {"contra_id": Subtype.subtype_id.toString()});
-    if (res['status'] == "success") {
-      print("---------------------------->");
-      print(Subtype.subtype_id);
-      print("==============>");
-      print(res);
-      return res; 
-    }
- 
-  }
+
 }

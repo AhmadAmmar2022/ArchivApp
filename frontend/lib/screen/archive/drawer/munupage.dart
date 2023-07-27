@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 
-
-
 import 'Menutem.dart';
 
 class MenuPage extends StatelessWidget {
-  final MenuItemmImport currentitem;
-  final ValueChanged<MenuItemmImport> onSelectedItem;
+  final MenuItemm currentitem;
+  final ValueChanged<MenuItemm> onSelectedItem;
 
   const MenuPage(
       {super.key, required this.currentitem, required this.onSelectedItem});
@@ -25,7 +23,7 @@ class MenuPage extends StatelessWidget {
               SizedBox(
                 height: 150,
               ),
-              ...MenuItemImport.all.map(BuildMenu).toList()
+              ...MenuItems.all.map(BuildMenu).toList()
             ],
           ),
         ),
@@ -33,10 +31,10 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Widget BuildMenu(MenuItemmImport item) => ListTileTheme(
-        selectedColor: Colors.amber,
+  Widget BuildMenu(MenuItemm item) => ListTileTheme(
+        selectedColor: Color.fromARGB(255, 4, 98, 251),
         child: ListTile(
-            selectedTileColor: Colors.black26,
+            selectedTileColor: Color.fromARGB(66, 12, 0, 0),
             selected: currentitem == item,
             minLeadingWidth: 20,
             leading: Icon(item.icon),
@@ -47,13 +45,27 @@ class MenuPage extends StatelessWidget {
       );
 }
 
-class MenuItemImport {
+class MenuItems {
  
-  static const view = MenuItemmImport("homepage", Icons.home_outlined);
-  static const daily = MenuItemmImport("Contracts", Icons.dialer_sip_sharp);
-  static const Unsigned_contracts = MenuItemmImport("Unsignedcontracts", Icons.archive_outlined);
-       static const all = <MenuItemmImport>[view,daily , Unsigned_contracts,];
-  
+  static const hompage = MenuItemm("الصفحةالاساسية ", Icons.home_outlined);
+   static const employees = MenuItemm(
+    "الاقسام",
+    Icons.person,
+  );
+  static const Finance = MenuItemm("الصندوق", Icons.money);
+
+  static const all = <MenuItemm>[hompage,employees, Finance];
 }
+
+
+
+ 
+
+
+
+
+
+
+
 
 

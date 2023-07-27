@@ -41,11 +41,13 @@ class _AddState extends State<Add> {
   GlobalKey<FormState> formstate = new GlobalKey<FormState>();
   bool issigned = false;
   FilePickerResult? files;
-    List<File> Allfiles=[];
- 
+  List<File> Allfiles = [];
+
   var fileTemporary;
-  FilePickerResult? result;// 
+  FilePickerResult? result; //
   List<PlatformFile> _images = [];
+    List<File> _selectedImages = [];
+
   bool isloading = false;
   get getAppl => null;
   @override
@@ -127,20 +129,26 @@ class _AddState extends State<Add> {
                             color: Color.fromARGB(255, 14, 0, 0), width: 1),
                         color: Color.fromARGB(255, 252, 252, 253),
                       ),
-                      child: files != null
+                      child: _selectedImages.isNotEmpty
                           ? GridView.builder(
                               padding: EdgeInsets.all(2),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 4,
-                                crossAxisSpacing: 2,
+                                    crossAxisSpacing: 5,
+                                    childAspectRatio: 3,
+                                    mainAxisExtent: 300,
+                                    mainAxisSpacing:20 ,
+                                crossAxisCount:
+                                    2, // Set the number of grid columns
                               ),
-                              itemCount: files!.files.length,
-                              itemBuilder: (context, index) {
-                                final file = files!.files[index];
-                                return buildFile(file);
-                              },
+                             itemCount: _selectedImages.length,
+                              // itemBuilder: (context, index) {
+                              //   final file = files!.files[index];
+                              //   return buildFile(file);
+                              // },
+                                 itemBuilder: (context, index) {
+                             return Image.file(_selectedImages[index]); // Display the selected images
+              },
                             )
                           : Center(
                               child: Column(
@@ -148,7 +156,7 @@ class _AddState extends State<Add> {
                               children: [
                                 IconButton(
                                   icon: Icon(Icons.cloud_upload),
-                                  onPressed: () => _selectFiles(),
+                                  onPressed: () => _pickImages(),
                                   iconSize: 30,
                                 ),
                                 Text("اضغط هنا لاختيار ملف ")
@@ -163,7 +171,7 @@ class _AddState extends State<Add> {
                     // Container(
                     //   child: InkWell(
                     //     child: Text(
-                     //       " اضغط هنا لاختيار ملف ",
+                    //       " اضغط هنا لاختيار ملف ",
                     //       style: TextStyle(
                     //           color: Color.fromARGB(255, 10, 148, 240)),
                     //     ),
@@ -184,37 +192,39 @@ class _AddState extends State<Add> {
     ));
   }
 
-  Future<FilePickerResult?> _selectFiles() async {
-     try {
-       files = await FilePicker.platform.pickFiles(
-       allowMultiple: true,
-       );
-      if (files != null) {
-         for (PlatformFile file in files!.files) {
-          Allfiles.add(File(file.path!));
-              }
-        setState(() {});// 
-        // paths = result!.paths.map((path) => path!,).toList();
+  // Future<FilePickerResult?> _selectFiles() async {
+  //   try {
+  //     files = await FilePicker.platform.pickFiles(
+  //       allowMultiple: true,
+  //     );
+  //     if (files != null) {
+  //       for (PlatformFile file in files!.files) {
+  //         Allfiles.add(File(file.path!));
+  //       }
+  //       setState(() {}); //
+  //       // paths = result!.paths.map((path) => path!,).toList();
 
-      }
-      } catch (e) {
-       print("Error picking files=============>: $e");
-      }
-       return files;
-    
-     }
+  //     }
+  //   } catch (e) {
+  //     print("Error picking files=============>: $e");
+  //   }
+  //   return files;
+  // }
 
   // _pickedFile() async {
   //    Allfiles= (await _selectFiles()) as List<PlatformFile> ;
   //   setState(() {
-      
+
   //   });
   // }
 
   Future<void> _add() async {
-    // paths.forEach((element) {
-    //   print(element);
-    // });
+     print("==================>");
+     _selectedImages.forEach((element) {
+      print(element);
+        print("==================>");
+    });
+     print("==================>");
     if (formstate.currentState!.validate()) {
       var response = await _request.postFile(
           AddSubTypeUrl,
@@ -225,11 +235,10 @@ class _AddState extends State<Add> {
             "contra_salary": salary.text,
             "doc_id": Viewtype.type_id.toString()
           },
-          Allfiles);
-      print("==========================");// 
+          _selectedImages);
+      print("=========================="); //
       print(response);
-      if (response['status'] == "success") 
-      {
+      if (response['status'] == "success") {
         Get.snackbar(
           "${name.text}",
           "completed successfully",
@@ -286,16 +295,16 @@ class _AddState extends State<Add> {
   //   }
   // }
 
-  Widget switcheadaptive() {
-    return Switch(
-      value: issigned,
-      onChanged: (value) {
-        setState(() {
-          issigned = value;
-        });
-      },
-    );
-  }
+  // Widget switcheadaptive() {
+  //   return Switch(
+  //     value: issigned,
+  //     onChanged: (value) {
+  //       setState(() {
+  //         issigned = value;
+  //       });
+  //     },
+  //   );
+  // }
 // Future<List<PlatformFile>> pickFiles() async {
 //   List<PlatformFile> files =
 //       (await FilePicker.platform.pickFiles(allowMultiple: true)) as List<PlatformFile>;
@@ -372,74 +381,87 @@ class _AddState extends State<Add> {
   //   });
   // }
 
-  void openFile(PlatformFile file) {
-    OpenFile.open(file.path);
-  }
+  // void openFile(PlatformFile file) {
+  //   OpenFile.open(file.path);
+  // }
 
-  Future<File> saveFile(PlatformFile file) async {
-    final appstorage = await getApplicationDocumentsDirectory();
-    final newFile = File('${appstorage.path}/${file.name}');
-    return File(file.path!).copy(newFile.path);
-  }
+  // Future<File> saveFile(PlatformFile file) async {
+  //   final appstorage = await getApplicationDocumentsDirectory();
+  //   final newFile = File('${appstorage.path}/${file.name}');
+  //   return File(file.path!).copy(newFile.path);
+  // }
 
-  openFiles(List<PlatformFile> files) {
-    return files;
-  }
+  // openFiles(List<PlatformFile> files) {
+  //   return files;
+  // }
 
-  Widget buildFile(PlatformFile file) {
-    final kb = file.size / 1024;
-    final mb = kb / 1024;
-    final fileSize =
-        mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} kb';
-    final extension = file.extension ?? 'none'; // Ahmad Ammar Almohmmad so
+  // Widget buildFile(PlatformFile file) {
+  //   final kb = file.size / 1024;
+  //   final mb = kb / 1024;
+  //   final fileSize =
+  //       mb >= 1 ? '${mb.toStringAsFixed(2)} MB' : '${kb.toStringAsFixed(2)} kb';
+  //   final extension = file.extension ?? 'none'; // Ahmad Ammar Almohmmad so
 
-    // final color =getColor(extension);
-    return InkWell(
-      onTap: () {
-        openFile(file);
-      },
-      child: Container(
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 72, 71, 71),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                '$extension',
-                style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 9, 0, 0)),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              file.name,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                  color: Color.fromARGB(255, 2, 0, 0)),
-            ),
-            Text(
-              fileSize,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                  color: Color.fromARGB(255, 3, 0, 0)),
-            )
-          ],
-        ),
-      ),
-    );
+  //   // final color =getColor(extension);
+  //   return InkWell(
+  //     onTap: () {
+  //       openFile(file);
+  //     },
+  //     child: Container(
+  //       child: Column(
+  //         // crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Container(
+  //             alignment: Alignment.center,
+  //             height: 100,
+  //             width: 100,
+  //             decoration: BoxDecoration(
+  //               color: Color.fromARGB(255, 72, 71, 71),
+  //               borderRadius: BorderRadius.circular(12),
+  //             ),
+  //             child: Text(
+  //               '$extension',
+  //               style: TextStyle(
+  //                   fontSize: 28,
+  //                   fontWeight: FontWeight.bold,
+  //                   color: Color.fromARGB(255, 9, 0, 0)),
+  //             ),
+  //           ),
+  //           const SizedBox(
+  //             height: 8,
+  //           ),
+  //           Text(
+  //             file.name,
+  //             style: TextStyle(
+  //                 fontSize: 12,
+  //                 fontWeight: FontWeight.bold,
+  //                 overflow: TextOverflow.ellipsis,
+  //                 color: Color.fromARGB(255, 2, 0, 0)),
+  //           ),
+  //           Text(
+  //             fileSize,
+  //             style: TextStyle(
+  //                 fontSize: 12,
+  //                 fontWeight: FontWeight.bold,
+  //                 overflow: TextOverflow.ellipsis,
+  //                 color: Color.fromARGB(255, 3, 0, 0)),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+    Future<void> _pickImages() async {
+    final List<XFile>? images =
+        await ImagePicker().pickMultiImage(); // Pick multiple images using ImagePicker
+
+    if (images != null) {
+      for (var image in images) {
+        File file = File(image.path);
+        setState(() {
+          _selectedImages.add(file); // Add selected images to the list
+        });
+      }
+    }
   }
 }

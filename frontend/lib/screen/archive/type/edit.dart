@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +16,7 @@ import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customButton.dart';
 
 import '../type/addtype.dart';
+import 'viewtype.dart';
 
 class EditType extends StatefulWidget {
   final contract;

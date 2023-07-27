@@ -6,36 +6,39 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:frontier/screen/archive/draweres/drawerimport/munupage.dart';
-import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
-
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 
-
-
-import '../../../homepage.dart';
-import '../../screens/imports/sub_type/view.dart';
-
-import '../unsigned.dart';
+import '../department/viewdepart.dart';
+import '../employees/employe.dart';
+import '../type/homePage1.dart';
+import '../type/viewtype.dart';
 import 'Menutem.dart';
 
-class drawerimport extends StatefulWidget {
-  const drawerimport({Key? key}) : super(key: key);
+import 'munupage.dart';
+
+
+
+
+
+class drwer extends StatefulWidget {
+  const drwer({Key? key}) : super(key: key);
 
   @override
-  State<drawerimport> createState() => _drawerimportState();
+  State<drwer> createState() => _drwerState();
 }
 
-class _drawerimportState extends State<drawerimport> {
+class _drwerState extends State<drwer> {
   final ZoomDrawerController z = ZoomDrawerController();
+  // List<ScreenHiddenDrawer> _pages = [];
   final myTextstyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white);
- @override
-  MenuItemmImport currentitem = MenuItemImport.view;
+  @override
+  MenuItemm currentitem = MenuItems.employees;
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
-      drawerShadowsBackgroundColor: Color.fromARGB(255, 5, 5, 5),
+      
+      drawerShadowsBackgroundColor: Color.fromARGB(255, 80, 107, 156),
       menuScreenWidth: MediaQuery.of(context).size.width,
       style: DrawerStyle.defaultStyle,
       menuScreen: Builder(
@@ -54,18 +57,18 @@ class _drawerimportState extends State<drawerimport> {
       borderRadius: 50,
       showShadow: true,
     );
+  
   }
 
   Widget getScreen() {
     switch (currentitem) {
-      case MenuItemImport.view:
+      case MenuItems.hompage:
         return Viewtype();
-         case MenuItemImport.daily:
-        return HomePage();
-         case MenuItemImport.Unsigned_contracts:
-        return unsigned();
-    
+      case MenuItems.employees:
+        return Viewdepart();
+      case MenuItems.Finance:
+        return Viewtype();
     }
-    return Viewtype();
+    return Viewdepart();
   }
 }

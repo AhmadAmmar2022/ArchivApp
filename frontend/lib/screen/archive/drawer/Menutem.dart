@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MenuItemmImport{
+class MenuItemm{
   final String title;
   final IconData icon ;
-  const MenuItemmImport(this.title, this.icon);
+  const MenuItemm(this.title, this.icon);
 }

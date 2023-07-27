@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../const/linkes.dart';
 import '../functions/globalfunctions.dart';
 import '../functions/httpfunctions/Request.dart';
-import '../screen/archive/draweres/drawerimport/drawerimport.dart';
+
 import '../widget/CustomText.dart';
 import '../widget/CustomTextfild.dart';
 import '../widget/customButton.dart';
@@ -113,7 +113,7 @@ class _LoginState extends State<Login> {
           forwardAnimationCurve: Curves.easeOutBack,
         );
 
-        Get.to(() => drawerimport());
+        // Get.to(() => drawerimport());
       } else {
         Get.snackbar(
           "Failure occurred",

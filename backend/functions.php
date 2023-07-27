@@ -13,7 +13,7 @@ function  imageupload($Files)
    global $msgerror;
    
    $total = count($_FILES['files']['name']);
-  
+    
    $file_name =  array();
    for ($i = 0; $i < $total; $i++) {
 
@@ -34,7 +34,7 @@ function  imageupload($Files)
          move_uploaded_file($imagetmp, "../upload/".$imagename);
          $file_name[] = $imagename;
       } else {
-         return "fail";
+         return "fail";//
       }
    }
    return $file_name;

@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
-import '../screen/archive/screens/imports/type/edit.dart';
+
 
 class customCard extends StatelessWidget {
   var size, height, width;

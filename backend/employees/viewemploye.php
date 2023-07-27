@@ -1,11 +1,12 @@
 <?php
 include "../connect.php";
    
-$contraid=filterRequest("contra_id");
-$stmp = $con->prepare("select * FROM `files_name` where files_name.contra_id=?" );
+$depart_id=filterRequest("depart_id");
+$stmp = $con->prepare("select * FROM `employees` where employees.depart_id =?");
+
 
 $stmp->execute(array(
-  $contraid
+  $depart_id
 )); 
 
  $cont_row =$stmp ->rowCount(); 
@@ -13,10 +14,9 @@ $stmp->execute(array(
  if ($cont_row >0)
    { 
     echo json_encode(array("status" =>"success","data"=>$data));
-    }
-
+      }
       else {
       echo  json_encode(array("status "=>"erorr"));
-          }
+      }
   ?>
- 
+  

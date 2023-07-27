@@ -7,8 +7,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:frontier/Auth/login.dart';
 import 'package:frontier/const/linkes.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/imports/sub_type/details.dart';
-import 'package:frontier/screen/archive/screens/imports/sub_type/edite.dart';
+
 import 'package:get/get.dart';
 
 import '../../../../../functions/httpfunctions/Request.dart';
@@ -26,7 +25,7 @@ class Viewtype extends StatefulWidget {
   });
 
   @override
-  State<Viewtype> createState() => _ViewtypeState();
+  State<Viewtype> createState() => _ViewtypeState();// add final rodi 
 }
 
 class _ViewtypeState extends State<Viewtype> {
@@ -39,6 +38,17 @@ class _ViewtypeState extends State<Viewtype> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+          title: Text("الصفحة الاساسية "),
+          backgroundColor:  Color.fromRGBO(66, 96, 137, 1),
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+             ZoomDrawer.of(context)!.toggle();// 
+            },
+          ),
+      
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(() => Addtype());
@@ -59,13 +69,13 @@ class _ViewtypeState extends State<Viewtype> {
             child: ListView(
               children: [
                 Row(children: [
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      ZoomDrawer.of(context)!.toggle();
-                    },
-                    color: Colors.white,
-                  ),
+                  // IconButton(
+                  //   icon: Icon(Icons.menu),
+                  //   onPressed: () {
+                  //     // ZoomDrawer.of(context)!.toggle();
+                  //   },
+                  //   color: Colors.white,
+                  // ),
                   const SizedBox(
                     width: 280,
                   ),
@@ -136,9 +146,9 @@ class _ViewtypeState extends State<Viewtype> {
                                     Viewtype.type_id = snapshot.data['data'][i]['type_id'].toString();
                                     print("===============");
                                     print("");
-                                    Get.to(() => Subtype(
-                                        //  subtype_id: Viewtype.type_id
-                                        ));
+                                    Get.to(() => Subtype());
+
+                                        
                                   },
                                 );
                               });

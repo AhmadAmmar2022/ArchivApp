@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:frontier/main.dart';
-import 'package:frontier/screen/archive/screens/imports/type/viewtype.dart';
+
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +17,7 @@ import '../../../../../functions/httpfunctions/Request.dart';
 import '../../../../../widget/CustomText.dart';
 import '../../../../../widget/CustomTextfild.dart';
 import '../../../../../widget/customButton.dart';
+import 'viewtype.dart';
 
 class Addtype extends StatefulWidget {
   Addtype({super.key});
