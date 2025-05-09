@@ -16,7 +16,9 @@ ArchivApp is a Flutter-based mobile application for daily document archiving, ap
 
 ## 🛠️ Technologies Used
 - **Flutter**: Front-end framework for building the user interface.
-- **Firebase**: Back-end services for authentication, cloud database, and file storage.
+- **PHP**: Back-end technology used for creating RESTful APIs to handle data, user authentication, and server-side logic.
+- **MySQL**: Database used for storing user data, documents, and other application-related information.
+- **RESTful API**: Communication between the front-end (Flutter) and the back-end (PHP), allowing.
 
 ---
 
