@@ -1,27 +1,20 @@
 <?php
+header('Content-Type: application/json'); // يجب أن يكون أول شيء
+
 include "../connect.php";
-   
-$username=filterRequest("username");
-$password=filterRequest("password");
-$email=filterRequest("email");
 
+$username = filterRequest("username");
+$password = filterRequest("password");
+$email    = filterRequest("email");
 
+$stmp = $con->prepare("INSERT INTO `users`(`username`, `password`, `email`) VALUES (?, ?, ?)");
 
+$stmp->execute(array($username, $password, $email));
 
-$stmp = $con->prepare(" INSERT INTO `users`(`username`, `password`, `email`) VALUES (?,?,?)");
+$cont_row = $stmp->rowCount();
 
-
-$stmp->execute(array(
- $username,$password,$email
-)); 
-
- $cont_row =$stmp ->rowCount(); 
- 
- if ($cont_row >0  )
-   { 
-      echo json_encode (array("status" =>"success"));
-    }
-   else {
-   echo  json_encode(array("status "=>"erorr"));
-   }
-  ?>
+if ($cont_row > 0) {
+    echo json_encode(array("status" => "success"));
+} else {
+    echo json_encode(array("status" => "error"));
+}

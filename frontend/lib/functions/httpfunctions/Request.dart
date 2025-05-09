@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
-
 import '../../screen/archive/sub_type/view.dart';
 
 class Request {
@@ -25,56 +24,59 @@ class Request {
   }
 
   postRequest(String url, Map data) async {
-    try {
-      var response = await http.post(Uri.parse(url), body: data);
-      if (response.statusCode == 200) {
+    var response = await http.post(Uri.parse(url), body: data);
+    print("RAW RESPONSE: ${response.body}"); // أضف هذا
+
+    if (response.statusCode == 200) {
+      try {
         var responsebody = jsonDecode(response.body);
         return responsebody;
-      } else {
-        print("${response.statusCode}");
+      } catch (e) {
+        print("JSON Decode Error: $e");
+        return null;
       }
-    } catch (e) {
-      print("==========================>");
-      print(e);
+    } else {
+      print("Status Code: ${response.statusCode}");
+      return null;
     }
   }
 
-  Future postFile(String url, Map data, List<File> files) async {
+  Future<Map<String, dynamic>?> postFile(
+    String url,
+    Map data,
+    List<File> files, {
+    String fileField = 'files[]', // ✅ هذا هو المطلوب
+  }) async {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
-      for (var file in files) {
-        // var stream = http.ByteStream(file.openRead());
-        //  var length = await file.length();
-        //  var streem = http.ByteStream(file.openRead());//open
 
-        request.files
-            .add(await http.MultipartFile.fromPath('files[]', file.path));
+      // إضافة الملفات باستخدام الاسم المرسل
+      for (var file in files) {
+        request.files.add(
+          await http.MultipartFile.fromPath(fileField, file.path),
+        );
       }
+
+      // إضافة باقي البيانات
       data.forEach((key, value) {
         request.fields[key] = value;
       });
 
-      //  var multipartFil = await http.MultipartFile('file', stream, length, filename: file.path.split('/').last);
-      //  request.files.add(multipartFil);
+      var response = await request.send();
+      var responseBody = await http.Response.fromStream(response);
 
-      // var myrequest = await request.send();
-      // var response = await http.Response.fromStream(myrequest);//
-      // if (response.statusCode == 200) {
-      //   return jsonDecode(response.body);
-      // }
-      // else {print("Eroor ${response.statusCode}");
-
-      // }
-      var response = await request.send(); //
+      print("RAW RESPONSE: ${responseBody.body}");
 
       if (response.statusCode == 200) {
-        Get.to(()=>Subtype());
+        return jsonDecode(responseBody.body);
       } else {
         print('Error uploading files: ${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print("========================>");
+      print("Exception caught during file upload:");
       print(e);
+      return null;
     }
   }
 }

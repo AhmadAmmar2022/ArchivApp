@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:frontier/functions/httpfunctions/Request.dart';
 import 'package:get/get.dart';
 
 import '../const/linkes.dart';
 import '../functions/globalfunctions.dart';
+import '../functions/httpfunctions/Request.dart';
 import '../widget/CustomText.dart';
 import '../widget/CustomTextfild.dart';
 import '../widget/customButton.dart';
 import 'login.dart';
 
 class SignUp extends StatefulWidget {
-  SignUp({super.key});
+  const SignUp({super.key});
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -19,90 +19,96 @@ class _SignUpState extends State<SignUp> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController email = TextEditingController();
+
+  GlobalKey<FormState> formstate = GlobalKey<FormState>();
   Request _request = Request();
-  GlobalKey<FormState> formstate = new GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(height: 100),
-          Container(
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 213, 204, 204),
-                border: Border.all(color: Colors.orange, width: 4),
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            // color: Color.fromARGB(255, 182, 132, 114),
-            padding: EdgeInsets.all(20),
-            child: Form(
+      body: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/1.png"), // نفس خلفية login
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: ListView(
+          children: [
+            SizedBox(height: 300), // تعديل ارتفاع البدء
+            Container(
+              child: Form(
                 key: formstate,
                 child: Column(
                   children: [
                     CustomTextFild(
                       fillColor: Color(0xff838C96),
-                        icon: Icon(Icons.person),
-                      hint: "username",
+                      icon: Icon(Icons.person),
+                      hint: "Username",
                       controller: username,
-                      valu: (val) {
+                      onChanged: (val) {
                         return validate(val!, 10, 2);
                       },
                     ),
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
-                        icon: Icon(Icons.password),
-                      hint: "password",
+                      fillColor: Color(0xff838C96),
+                      icon: Icon(Icons.lock),
+                      hint: "Password",
                       controller: password,
-                      valu: (val) {
+                      onChanged: (val) {
                         return validate(val!, 10, 2);
                       },
                     ),
                     CustomTextFild(
-                           fillColor: Color(0xff838C96),
+                      fillColor: Color(0xff838C96),
                       icon: Icon(Icons.email),
-                      hint: "email",
+                      hint: "Email",
                       controller: email,
-                      valu: (val) {
-                        return validate(val!, 15, 2);
+                      onChanged: (val) {
+                        return validate(val!, 15, 4);
                       },
                     ),
-                        customText(
+                    customText(
+                      text: "Already have an account? ",
                       onPress: () {
-                        Get.to(Login());
+                        Get.to(() => Login());
                       },
-                      text:"if you have account  " ,
                     ),
                     CustomButton(
-                      text: "Signup",
+                      text: "Sign Up",
                       onPress: () async {
                         await signUp();
                       },
                     ),
-                
                   ],
-                )),
-          )
-        ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  signUp() async {
+  Future<void> signUp() async {
     if (formstate.currentState!.validate()) {
       var response = await _request.postRequest(SignUpUrl, {
         "username": username.text,
-        "email":    email.text,
         "password": password.text,
+        "email": email.text,
       });
-      print(username);
+
+      print(username.text);
       print(response);
 
       if (response['status'] == "success") {
         Get.snackbar(
           "${username.text}",
-          " Login completed successfully",
-          icon: Icon(Icons.person, color: Colors.white),
+          "Sign up completed successfully",
+          icon: Icon(Icons.check_circle, color: Colors.white),
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.green,
           borderRadius: 20,
           margin: EdgeInsets.all(15),
           colorText: Colors.white,
@@ -112,8 +118,18 @@ class _SignUpState extends State<SignUp> {
         );
         Get.to(() => Login());
       } else {
-        AlertDialog(
-          title: Text("zzzzzzzz"),
+        Get.snackbar(
+          "Error",
+          "Something went wrong, please try again",
+          icon: Icon(Icons.error, color: Colors.white),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          borderRadius: 20,
+          margin: EdgeInsets.all(15),
+          colorText: Colors.white,
+          duration: Duration(seconds: 4),
+          isDismissible: true,
+          forwardAnimationCurve: Curves.easeOutBack,
         );
       }
     }

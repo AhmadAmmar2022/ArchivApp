@@ -1,11 +1,11 @@
 <?php
 include "../connect.php";
    
-$contraid=filterRequest("contra_id");
-$stmp = $con->prepare("select * FROM contract where contract.contra_id=?");
+$id=filterRequest("id");
+$stmp = $con->prepare("select * FROM archives where archives.id=?");
 
 $stmp->execute(array(
- $contraid
+ $id
 )); 
 
  $cont_row =$stmp ->rowCount(); 

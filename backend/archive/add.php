@@ -1,31 +1,30 @@
 <?php
 include "../connect.php";
 
-$contra_name = filterRequest("contra_name");
-$contra_date = filterRequest("contra_date");
-$contra_issigned = filterRequest("contra_issigned");
-$contra_salary = filterRequest("contra_salary");
-$doc_id = filterRequest("doc_id");
+$contra_name = filterRequest("name");
+$contra_date = filterRequest("date");
+$contra_des = filterRequest("description");
+
+$type_id = filterRequest("type_id");
 $filesname = imageupload('files');
 
 
-$stmp = $con->prepare(" INSERT INTO `contract` (`contra_name`, `contra_date`,`contra_issigned`,`contra_salary`,`doc_id`) VALUES (?,?,?,?,?)");
+$stmp = $con->prepare(" INSERT INTO `archives` (`name`, `date`,`description`,`type_id`) VALUES (?,?,?,?)");
 
 $stmp->execute(array(
-  $contra_name, $contra_date, $contra_issigned, $contra_salary, $doc_id
+  $contra_name, $contra_date, $contra_des, $type_id
 ));
 
 
 
-$s = $con->prepare(" SELECT * FROM `contract` order by contra_id DESC LIMIT 1");
+$s = $con->prepare(" SELECT * FROM `archives` order by id DESC LIMIT 1");
 $s->execute();
 $data = $s->fetch(PDO::FETCH_ASSOC);
-$contra_id = $data['contra_id'];
-print_r($data);
-echo ($contra_id);
+$contra_id = $data['id'];
+
 
 for ($i = 0; $i < count($filesname); $i++) {
-  $stmpp = $con->prepare(" INSERT INTO `files_name` (`file_name`, `contra_id`) VALUES (?,?)");
+  $stmpp = $con->prepare(" INSERT INTO `files_name` (`file_name`, `archiv_id`) VALUES (?,?)");
   $stmpp->execute(array(
     $filesname[$i], $contra_id
   ));
@@ -36,7 +35,7 @@ if ($cont_row > 0) {
   echo json_encode(array("status" => "success"));
 } else {
   echo  json_encode(array("status " => "erorr"));
-}
+} 
    
 
    

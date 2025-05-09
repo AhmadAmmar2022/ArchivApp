@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import '../Auth/login.dart';
 
 class customText extends StatelessWidget {
- final  void Function()? onPress;
- final String text ;
+  final void Function()? onPress;
+  final String text;
   const customText({super.key, this.onPress, required this.text});
 
   @override
@@ -20,8 +20,9 @@ class customText extends StatelessWidget {
             InkWell(
               onTap: onPress,
               child: Text(
-                "Click Here",
-                style: TextStyle(color: Colors.blue),
+                "  Sign In",
+                style:
+                    TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
               ),
             )
           ],

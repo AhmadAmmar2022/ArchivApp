@@ -6,22 +6,24 @@ class CustomTextFild extends StatelessWidget {
   final String hint;
   final Color fillColor;
   final TextEditingController controller;
-  final String? Function(String?) valu;
+  final Function(String)? onChanged; // بدل valu
   final Widget icon;
-  const CustomTextFild(
-      {super.key,
-      required this.hint,
-      required this.controller,
-      required this.valu,
-      required this.icon, required this.fillColor});
+
+  const CustomTextFild({
+    super.key,
+    required this.hint,
+    required this.controller,
+    required this.onChanged,
+    required this.icon,
+    required this.fillColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(12,10 ,10 ,5 ),
-      
+      padding: EdgeInsets.fromLTRB(12, 10, 10, 5),
       child: TextFormField(
-        validator: valu,
+        onChanged: onChanged, // استخدم onChanged بدلاً من validator
         controller: controller,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -31,7 +33,7 @@ class CustomTextFild extends StatelessWidget {
           filled: true,
           fillColor: fillColor,
           isDense: true,
-         contentPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
           prefixIcon: icon,
           hintText: hint,
           border: OutlineInputBorder(

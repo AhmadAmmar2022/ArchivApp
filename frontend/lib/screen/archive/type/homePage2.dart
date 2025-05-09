@@ -14,7 +14,7 @@ class _homePage2State extends State<homePage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: Text("Minhac"),
         backgroundColor: Color.fromARGB(255, 126, 95, 2),
         leading: IconButton(
@@ -24,7 +24,7 @@ class _homePage2State extends State<homePage2> {
           },
         ),
       ),
-      
-      body: Container(child: Text("homePage 2")),);
+      body: Container(child: Text("homePage 2")),
+    );
   }
 }

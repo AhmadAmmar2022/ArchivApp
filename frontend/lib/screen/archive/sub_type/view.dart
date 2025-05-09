@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -14,12 +16,10 @@ import '../../../../../widget/customcard.dart';
 
 import '../../../../../widget/customcardchild.dart';
 import '../type/viewtype.dart';
-import 'FilesPage.dart';
 import 'add.dart';
 import 'details.dart';
 
 class Subtype extends StatefulWidget {
-  
   static late String subtype_id;
   Subtype({
     super.key,
@@ -31,17 +31,25 @@ class Subtype extends StatefulWidget {
 
 class _SubtypeState extends State<Subtype> {
   Request _request = Request();
+  String searchQuery = '';
+
   TextEditingController search = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.to(() => Add());
-          },
-          backgroundColor: Color(0xff27394E),
-          child: const Icon(Icons.add),
+        appBar: AppBar(
+          title: Text("View file"),
+          backgroundColor: Color.fromRGBO(66, 96, 137, 1),
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Get.to(() => Add());
+            },
+            backgroundColor: Color.fromARGB(255, 1, 54, 97),
+            child: Icon(
+              Icons.add,
+              color: Color.fromARGB(255, 255, 255, 255),
+            )),
         body: Container(
             height: size.height,
             decoration: BoxDecoration(
@@ -54,76 +62,75 @@ class _SubtypeState extends State<Subtype> {
             ),
             child: ListView(
               children: [
-                Row(children: [
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      ZoomDrawer.of(context)!.toggle();
-                    },
-                    color: Colors.white,
-                  ),
-                
-                  const SizedBox(
-                    width: 280,
-                  ),
-                  Image.asset("images/5.png")
-                ]),
-                  CustomTextFild(
+                SizedBox(
+                  height: 20,
+                ),
+                CustomTextFild(
                   fillColor: Color.fromARGB(255, 247, 248, 250),
                   icon: Icon(Icons.search),
                   hint: "Search",
                   controller: search,
-                  valu: (val) {},
-                ),   
+                  onChanged: (val) {
+                    setState(() {
+                      searchQuery = val;
+                    });
+                  },
+                ),
                 FutureBuilder(
                     future: getdata(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         return GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                            ),
-                            itemCount: snapshot.data['data'].length,
-                            itemBuilder: (BuildContext context, int i) {
-                              return InkWell(
-                                child: CustomCardChild(
-                                  // onPreesEdit: () async {
-                                  //   await Get.to(() =>
-                                  //       Edit(contract: snapshot.data['data'][i]));
-                                  // },
-                                  // onPreesDelete: () async {
-                                  //   var response = await _request.postRequest(
-                                  //       deleteURL, {
-                                  //     "contra_id": snapshot.data['data'][i]
-                                  //             ['contra_id']
-                                  //         .toString(),
-                                  //             "image_name": snapshot.data['data'][i]
-                                  //             ['contra_image']
-                                  //         .toString()
-                                  //   });
-                                  //   if (response['status'] =="success") {
-                                  //        setState(() {
-                              
-                                  //        });
-                                  //   }
-                                  // },
-                              
-                                  name:
-                                  "${snapshot.data['data'][i]['contra_name']}",
-                                
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 3 / 2,
+                          ),
+                          padding: EdgeInsets.all(16),
+                          itemCount: snapshot.data['data'].length,
+                          itemBuilder: (BuildContext context, int i) {
+                            final item = snapshot.data['data'][i];
+                            return GestureDetector(
+                              onTap: () {
+                                Subtype.subtype_id = item['id'];
+                                Get.to(details());
+                              },
+                              child: Card(
+                                elevation: 6,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
-                                onTap: () {
-                                  Subtype.subtype_id=snapshot.data['data'][i]['contra_id'];
-                                  Get.to(details());
-                                },
-                              );
-                            });
+                                color: Colors.white,
+                                shadowColor: Colors.black.withOpacity(0.1),
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 1),
+                                      Text(
+                                        item['name'],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff27394E),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator(); 
+                        return CircularProgressIndicator();
                       }
                       if (snapshot.hasError) {
                         return Center(
@@ -141,8 +148,11 @@ class _SubtypeState extends State<Subtype> {
 
   getdata() async {
     print(Viewtype.type_id);
-    var response =
-        await _request.postRequest(getsubtype, {"type_id": Viewtype.type_id});
+    var url = "$getsubtype?type_id=${Viewtype.type_id}";
+    if (searchQuery.isNotEmpty) {
+      url += "&search=$searchQuery";
+    }
+    var response = await _request.getRequest(url);
     if (response['status'] == "success") {
       return response;
     }
@@ -150,10 +160,10 @@ class _SubtypeState extends State<Subtype> {
 
   delete(String i) async {
     var response =
-    await _request.postRequest(deleteURL, {"contra_id": i.toString()});
-    if(response['status'] == "success") {
+        await _request.postRequest(deleteURL, {"contra_id": i.toString()});
+    if (response['status'] == "success") {
       print(response);
-      return response;
+      return response; //
     }
   }
 }

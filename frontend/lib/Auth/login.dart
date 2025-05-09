@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontier/Auth/signup.dart';
 import 'package:frontier/main.dart';
+import 'package:frontier/screen/archive/drawer/drawer.dart';
 import 'package:frontier/screen/homepage.dart';
 import 'package:get/get.dart';
 
@@ -32,56 +33,45 @@ class _LoginState extends State<Login> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         image: DecorationImage(
-
             image: AssetImage("images/1.png"), fit: BoxFit.fill),
-          ),
-          child:ListView(
-          children: [
+      ),
+      child: ListView(
+        children: [
           Container(
-         
-            padding: EdgeInsets.only(top: 220),
-            child: Image.asset('images/2.png'), //Icon
-          ),
-          Container(
-                margin: EdgeInsets.symmetric(horizontal: 35),
-              child:
-                  Form(
-                      key: formstate,
-                      child: Column(
-                        children: [
-                          CustomTextFild(
-                                 fillColor: Color(0xff838C96),
-                            icon: Icon(Icons.person),
-                            hint: "username",
-                            controller: username,
-                            valu: (val) {
-                              return validate(val!, 10, 4);
-                            },
-                          ),
-                          CustomTextFild(
-                                 fillColor: Color(0xff838C96),
-                            icon: Icon(Icons.password),
-                            hint: "password",
-                            controller: password,
-                            valu: (val) {
-                              return validate(val!, 15, 4);
-                            },
-                          ),
-                      
-                          CustomButton(
-                            text: "تسجيل الدخول",
-                            onPress: () async {
-                              await login();
-                            },
-                          ),
-                        ],
-                      ))
-        )
+              margin: EdgeInsets.only(top: 350),
+              child: Form(
+                  key: formstate,
+                  child: Column(
+                    children: [
+                      CustomTextFild(
+                        fillColor: Color(0xff838C96),
+                        icon: Icon(Icons.person),
+                        hint: "username",
+                        controller: username,
+                        onChanged: (val) {
+                          return validate(val!, 10, 4);
+                        },
+                      ),
+                      CustomTextFild(
+                        fillColor: Color(0xff838C96),
+                        icon: Icon(Icons.password),
+                        hint: "password",
+                        controller: password,
+                        onChanged: (val) {
+                          return validate(val!, 15, 4);
+                        },
+                      ),
+                      CustomButton(
+                        text: "Sign In",
+                        onPress: () async {
+                          await login();
+                        },
+                      ),
+                    ],
+                  )))
         ],
-              ),
-      ));
-    
-    
+      ),
+    ));
   }
 
   login() async {
@@ -91,20 +81,22 @@ class _LoginState extends State<Login> {
         "password": password.text,
       });
       if (response['status'] == "success") {
-        sharedpref.setString("id", response['data']['id'].toString());
         sharedpref.setString(
             "username", response['data']['username'].toString());
         sharedpref.setString(
             "password", response['data']['password'].toString());
+        sharedpref.setString("id", response['data']['id'].toString());
+
+        print("=============================================>");
         print(sharedpref.getString("id"));
-        print(response);
-        Get.to(() => HomePage());
+        print("=============================================>");
+        Get.to(() => drwer());
         Get.snackbar(
           "${username.text}",
           " Login completed successfully",
           icon: Icon(Icons.person, color: Colors.white),
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.green,
           borderRadius: 20,
           margin: EdgeInsets.all(15),
           colorText: Colors.white,

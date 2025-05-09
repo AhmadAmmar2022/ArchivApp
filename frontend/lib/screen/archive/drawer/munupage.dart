@@ -46,26 +46,10 @@ class MenuPage extends StatelessWidget {
 }
 
 class MenuItems {
- 
-  static const hompage = MenuItemm("الصفحةالاساسية ", Icons.home_outlined);
-   static const employees = MenuItemm(
-    "الاقسام",
-    Icons.person,
-  );
-  static const Finance = MenuItemm("الصندوق", Icons.money);
+  static const hompage = MenuItemm("Home Page ", Icons.home_outlined);
+  static const Appointment = MenuItemm("Appointments", Icons.calendar_today);
 
-  static const all = <MenuItemm>[hompage,employees, Finance];
+  static const Finance = MenuItemm("Monthly Expenses", Icons.money);
+
+  static const all = <MenuItemm>[hompage, Finance, Appointment];
 }
-
-
-
- 
-
-
-
-
-
-
-
-
-

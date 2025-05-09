@@ -79,7 +79,7 @@ class _AddDepartmentState extends State<AddDepartment> {
                         icon: Icon(Icons.person),
                         hint: "اسم القسم",
                         controller: name,
-                        valu: (val) {
+                        onChanged: (val) {
                           return validate(val!, 25, 2);
                         },
                       ),
@@ -129,14 +129,12 @@ class _AddDepartmentState extends State<AddDepartment> {
       ),
     ));
   }
+
   addDepartment() async {
     if (formstate.currentState!.validate()) {
-      var response = await _request.postRequest(
-          AddDepertURl,
-          {
-            'type_name': name.text,
-           
-          });
+      var response = await _request.postRequest(AddDepertURl, {
+        'type_name': name.text,
+      });
       print(response);
       if (response['status'] == "success") {
         Get.snackbar(
@@ -145,14 +143,14 @@ class _AddDepartmentState extends State<AddDepartment> {
           icon: Icon(Icons.person, color: Colors.white),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.orange,
-          borderRadius: 20, 
+          borderRadius: 20,
           margin: EdgeInsets.all(15),
           colorText: Colors.white,
           duration: Duration(seconds: 4),
           isDismissible: true,
           forwardAnimationCurve: Curves.easeOutBack,
         );
-         Get.to(() => drwer());
+        Get.to(() => drwer());
       } else {
         AlertDialog(
           title: Text("zzzzzzzz"),
