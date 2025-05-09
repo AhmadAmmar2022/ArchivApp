@@ -36,7 +36,7 @@ ArchivApp is a Flutter-based mobile application for daily document archiving, ap
 ## 📱 Screenshots
 
 ### 1 - **Signup Page**  
-![Signup Page](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/singin.png)
+![Signup Page](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/signup.png)
 
 
 ### 2 - **Signin Page**  
