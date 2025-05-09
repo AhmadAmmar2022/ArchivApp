@@ -33,25 +33,48 @@ ArchivApp is a Flutter-based mobile application for daily document archiving, ap
 - 🗃️ **Document OCR** (Optical Character Recognition) for extracting text from scanned images.
 
 ---
+## 📱 Screenshots
 
-## 1 - Welcome Screen  
-![Welcome Screen](frontend/screenshots/welcome_screen.png)
+### 1 - **Signup Page**  
+![Signup Page](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/singin.png)
 
-## 2 - Folder View  
-![Folder View](frontend/screenshots/folder_view.png)
+### 2 - **Home Page**  
+![Home Page](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/homepage.png)
 
-## 3 - Document Details  
-![Document Details](frontend/screenshots/document_details.png)
+### 3 - **Homepage (Alternative View)**  
+![Homepage 2](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/homepage%202.png)
 
-## 4 - Add New Document  
-![Add Document](frontend/screenshots/add_document.png)
+### 4 - **Edit Folder**  
+![Edit Folder](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/edit%20folder.png)
+
+### 5 - **Create Folder**  
+![Create Folder](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/creat%20folder.png)
+
+### 6 - **View Image**  
+![View Image](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/View%20Image.png)
+
+### 7 - **View File**  
+![View File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/View%20File.png)
+
+### 8 - **Search Page**  
+![Search](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Search.png)
+
+### 9 - **Search File**  
+![Search File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Search%20File.png)
+
+### 10 - **File Details**  
+![File Details](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/File%20Detials.png)
+
+### 11 - **Edit File**  
+![Edit File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Edit%20File.png)
+
+### 12 - **Drawer Menu**  
+![Drawer Menu](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Drawer%20Menu.png)
+
+### 13 - **Delete Folder**  
+![Delete Folder](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Delete%20Folder.png)
+
+### 14 - **Add File**  
+![Add File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Add%20File.png)
 
 ---
-
-## 📦 Getting Started
-
-To run the app locally, use the following commands:
-
-```bash
-flutter pub get
-flutter run
