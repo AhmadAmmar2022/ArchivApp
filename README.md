@@ -20,6 +20,18 @@ ArchivApp is a Flutter-based mobile application for daily document archiving, ap
 
 ---
 
+## 🔮 Future Enhancements
+
+- 🤖 **AI-powered reminders** using Firebase ML Kit for:
+  - Medicine intake notifications.
+  - Daily exercise reminders.
+- 🧾 **Smart archiving** of financial and personal documents using AI classification.
+- 📊 **Transaction tracking**: Logging income and expenses with monthly overviews.
+- 📈 **Visual analytics**: Auto-generated charts for financial inflow/outflow.
+- 🗃️ **Document OCR** (Optical Character Recognition) for extracting text from scanned images.
+
+---
+
 ## 1 - Welcome Screen  
 ![Welcome Screen](frontend/screenshots/welcome_screen.png)
 
