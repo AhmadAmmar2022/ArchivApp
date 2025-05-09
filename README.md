@@ -1,20 +1,43 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+<h1 style="color:blue; font-weight:bold;">📂 ArchivApp</h1>
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## 📋 About the Project  
+ArchivApp is a Flutter-based mobile application for daily document archiving, appointment reminders, and secure storage of important files. The app is designed for individuals who want to keep their paperwork organized and accessible, especially in countries like Germany where documentation is crucial.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+---
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## 🚀 Features
+- Organize documents into custom folders (e.g., Health Insurance, Rent, Tax).
+- Add, view, edit, and delete documents with ease.
+- Track important dates and appointments.
+- User authentication: Sign up, log in, and log out.
+- Search and filter documents quickly.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+---
+
+## 🛠️ Technologies Used
+- **Flutter**: Front-end framework for building the user interface.
+- **Firebase**: Back-end services for authentication, cloud database, and file storage.
+
+---
+
+## 1 - Welcome Screen  
+![Welcome Screen](frontend/screenshots/welcome_screen.png)
+
+## 2 - Folder View  
+![Folder View](frontend/screenshots/folder_view.png)
+
+## 3 - Document Details  
+![Document Details](frontend/screenshots/document_details.png)
+
+## 4 - Add New Document  
+![Add Document](frontend/screenshots/add_document.png)
+
+---
+
+## 📦 Getting Started
+
+To run the app locally, use the following commands:
+
+```bash
+flutter pub get
+flutter run
