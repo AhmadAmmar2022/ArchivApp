@@ -43,46 +43,55 @@ ArchivApp is a Flutter-based mobile application for daily document archiving, ap
 ![Signup Page](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/singin.png)
 
 
-### 2 - **Home Page**  
+### 3 - **Home Page**  
 ![Home Page](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/homepage.png)
 
 
-### 12 - **Drawer Menu**  
+### 4 - **Drawer Menu**  
 ![Drawer Menu](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Drawer%20Menu.png)
 
-### 3 - **Homepage (with Data)**  
+
+### 5 - **Homepage (with Data)**  
 ![Homepage 2](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/homepage%202.png)
 
-### 5 - **Create Folder**  
+
+### 6 - **Create Folder**  
 ![Create Folder](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/creat%20folder.png)
 
-### 8 - **Search Page**  
+
+### 7 - **Search Page**  
 ![Search](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Search.png)
 
-### 4 - **Edit Folder**  
+
+### 8 - **Edit Folder**  
 ![Edit Folder](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/edit%20folder.png)
 
-### 13 - **Delete Folder**  
+
+### 9 - **Delete Folder**  
 ![Delete Folder](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Delete%20Folder.png)
 
 
-### 7 - **View File**  
+### 10 - **View File**  
 ![View File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/View%20File.png)
 
 
-
-### 9 - **Search File**  
+### 11 - **Search File**  
 ![Search File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Search%20File.png)
 
-### 10 - **File Details**  
+
+### 12 - **File Details**  
 ![File Details](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/File%20Detials.png)
-### 6 - **View Image**  
+
+
+### 13 - **View Image**  
 ![View Image](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/View%20Image.png)
+
 
 ### 14 - **Add File**  
 ![Add File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Add%20File.png)
 
-### 11 - **Edit File**  
+
+### 15 - **Edit File**  
 ![Edit File](https://github.com/AhmadAmmar2022/ArchivApp/blob/main/frontend/Screenschots_Archive/Edit%20File.png)
 
 
